@@ -2,8 +2,10 @@ package gurpreetsk.me.popularmovies1;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -43,6 +45,12 @@ public class MovieGridViewFragment extends Fragment {
     private RecyclerView recyclerView;
     private MoviesAdapter adapter;
 
+    public static final String EXTRA_TITLE ="title";
+    public static final String EXTRA_OVERVIEW ="overview";
+    public static final String EXTRA_RELEASE_DATE ="release_data";
+    public static final String EXTRA_VOTE_AVERAGE ="vote_average";
+    public static final String EXTRA_IMAGE ="image";
+
     public MovieGridViewFragment() {
         // Required empty public constructor
     }
@@ -66,11 +74,11 @@ public class MovieGridViewFragment extends Fragment {
                             for (int i = 0; i < 20; i++) {
                                 JSONObject obj = response.getJSONArray("results").getJSONObject(i);
                                 String title = obj.getString("original_title");
-                                Log.v(TAG, title);
                                 String poster = obj.getString("poster_path");
                                 String popularity = obj.getString("popularity");
                                 String overview = obj.getString("overview");
                                 String release_date = obj.getString("release_date");
+//                                Log.v(TAG, release_date);
                                 String vote_average = obj.getString("vote_average");
                                 MovieList.add(new MovieData(title, poster, popularity, overview, release_date, vote_average));
                             }
@@ -109,6 +117,13 @@ public class MovieGridViewFragment extends Fragment {
             @Override
             public void onClick(View view, int position) {
                 Toast.makeText(getContext(), MovieList.get(position).getPoster_path(), Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getContext(), DetailActivity.class);
+                intent.putExtra(EXTRA_TITLE , MovieList.get(position).getOriginal_title());
+                intent.putExtra(EXTRA_IMAGE , MovieList.get(position).getPoster_path());
+                intent.putExtra(EXTRA_OVERVIEW , MovieList.get(position).getOverview());
+                intent.putExtra(EXTRA_RELEASE_DATE , MovieList.get(position).getRelease_date());
+                intent.putExtra(EXTRA_VOTE_AVERAGE , MovieList.get(position).getVote_average());
+                startActivity(intent);
             }
         }));
 

@@ -24,6 +24,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHold
 
     private List<MovieData> MovieList;
     Context context;
+
     public static final String TAG = MoviesAdapter.class.getSimpleName();
 
     public MoviesAdapter(List<MovieData> movieList, Context context) {
