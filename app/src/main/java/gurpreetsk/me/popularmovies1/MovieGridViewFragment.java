@@ -1,6 +1,5 @@
 package gurpreetsk.me.popularmovies1;
 
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -39,7 +38,6 @@ import java.util.ArrayList;
 import gurpreetsk.me.popularmovies1.Adapters.MoviesAdapter;
 import gurpreetsk.me.popularmovies1.Model.MovieData;
 
-
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -71,8 +69,34 @@ public class MovieGridViewFragment extends Fragment {
 
         setHasOptionsMenu(true);
 
-//        fetchJSON();
+    }
 
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View v = inflater.inflate(R.layout.fragment_movie_grid_view, container, false);
+
+        RecyclerView recyclerView = (RecyclerView) v.findViewById(R.id.grid_view);
+        adapter = new MoviesAdapter(MovieList, getActivity());
+        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getContext(), 2);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(adapter);
+
+        recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getContext(), recyclerView, new ClickListener() {
+            @Override
+            public void onClick(View view, int position) {
+                Intent intent = new Intent(getContext(), DetailActivity.class);
+                intent.putExtra(EXTRA_TITLE, MovieList.get(position).getOriginal_title());
+                intent.putExtra(EXTRA_IMAGE, MovieList.get(position).getPoster_path());
+                intent.putExtra(EXTRA_OVERVIEW, MovieList.get(position).getOverview());
+                intent.putExtra(EXTRA_RELEASE_DATE, MovieList.get(position).getRelease_date());
+                intent.putExtra(EXTRA_VOTE_AVERAGE, MovieList.get(position).getVote_average());
+                startActivity(intent);
+            }
+        }));
+
+        return v;
     }
 
     private void fetchJSON() {
@@ -119,34 +143,6 @@ public class MovieGridViewFragment extends Fragment {
 
         queue.add(request);
 
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_movie_grid_view, container, false);
-
-        RecyclerView recyclerView = (RecyclerView) v.findViewById(R.id.grid_view);
-        adapter = new MoviesAdapter(MovieList, getActivity());
-        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getContext(), 2);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(adapter);
-
-        recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getContext(), recyclerView, new ClickListener() {
-            @Override
-            public void onClick(View view, int position) {
-                Intent intent = new Intent(getContext(), DetailActivity.class);
-                intent.putExtra(EXTRA_TITLE, MovieList.get(position).getOriginal_title());
-                intent.putExtra(EXTRA_IMAGE, MovieList.get(position).getPoster_path());
-                intent.putExtra(EXTRA_OVERVIEW, MovieList.get(position).getOverview());
-                intent.putExtra(EXTRA_RELEASE_DATE, MovieList.get(position).getRelease_date());
-                intent.putExtra(EXTRA_VOTE_AVERAGE, MovieList.get(position).getVote_average());
-                startActivity(intent);
-            }
-        }));
-
-        return v;
     }
 
     @Override

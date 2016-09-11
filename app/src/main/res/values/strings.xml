@@ -16,5 +16,6 @@
     <string name="country">US</string>
     <string name="certification_lte">certification.lte</string>
     <string name="G">G</string>
+    <string name="action_share">Share</string>
 
 </resources>
