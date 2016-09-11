@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Popular Movies 1</string>\
+    <string name="MOVIEDB_API_KEY"></string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="movie_thumbnail">movie_thumbnail</string>
+    <string name="API_KEY_ATTR">api_key</string>
+    <string name="title_activity_information">InformationActivity</string>
+
+</resources>
