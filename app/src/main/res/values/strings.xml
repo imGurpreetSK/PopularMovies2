@@ -7,5 +7,14 @@
     <string name="API_KEY_ATTR">api_key</string>
     <string name="title_activity_information">InformationActivity</string>
     <string name="detail_image">DetailActivity Image</string>
+    <string name="popularity">popularity.desc</string>
+    <string name="prefs_key">popularity</string>
+    <string name="sort_by">sort_by</string>
+    <string name="sort_preference">Sort Results</string>
+    <string name="sort">sort</string>
+    <string name="certification_country">certification_country</string>
+    <string name="country">US</string>
+    <string name="certification_lte">certification.lte</string>
+    <string name="G">G</string>
 
 </resources>

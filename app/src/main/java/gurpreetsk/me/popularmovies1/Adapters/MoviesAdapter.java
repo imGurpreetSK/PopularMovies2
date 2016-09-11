@@ -42,7 +42,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHold
     public void onBindViewHolder(MoviesAdapter.MyViewHolder holder, int position) {
         MovieData movie = MovieList.get(position);
         holder.textView.setText(movie.getOriginal_title());
-        Uri builder = Uri.parse("image.tmdb.org/t/p/w185/").buildUpon()
+        Uri builder = Uri.parse("http://image.tmdb.org/t/p/w500/").buildUpon()
                 .appendEncodedPath(movie.getPoster_path())
                 .build();
 //        Log.v(TAG, builder.toString());
@@ -63,6 +63,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHold
             super(view);
             imageView = (ImageView) view.findViewById(R.id.thumbnail_image_view);
             textView = (TextView) view.findViewById(R.id.thumbnail_text_view);
+//            textView.setBackground;
         }
 
     }

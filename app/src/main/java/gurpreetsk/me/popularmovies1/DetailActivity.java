@@ -3,6 +3,9 @@ package gurpreetsk.me.popularmovies1;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -28,10 +31,10 @@ public class DetailActivity extends AppCompatActivity {
         vote_average.setText(RATED + getIntent().getStringExtra(MovieGridViewFragment.EXTRA_VOTE_AVERAGE));
         release_date.setText(RELEASE_DATE + getIntent().getStringExtra(MovieGridViewFragment.EXTRA_RELEASE_DATE));
         overview.setText(getIntent().getStringExtra(MovieGridViewFragment.EXTRA_OVERVIEW));
-        Uri builder = Uri.parse("image.tmdb.org/t/p/w185/").buildUpon()
+        Uri builder = Uri.parse("http://image.tmdb.org/t/p/w185/").buildUpon()
                 .appendEncodedPath(getIntent().getStringExtra(MovieGridViewFragment.EXTRA_IMAGE))
                 .build();
-        Picasso.with(this).load(builder.toString()).into(imageView);
+        Picasso.with(this).load(builder.toString()).fit().into(imageView);
 
     }
 
@@ -41,5 +44,6 @@ public class DetailActivity extends AppCompatActivity {
         release_date = (TextView) findViewById(R.id.detail_release_date);
         overview = (TextView) findViewById(R.id.detail_overview);
     }
+
 
 }
