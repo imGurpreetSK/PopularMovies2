@@ -1,9 +1,12 @@
 package gurpreetsk.me.popularmovies1.Model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by Gurpreet on 11/09/16.
  */
-public class MovieData {
+public class MovieData implements Parcelable {
 
     private String original_title, poster_path, popularity, overview, release_date, vote_average;
 
@@ -15,6 +18,41 @@ public class MovieData {
         this.release_date = release_date;
         this.vote_average = vote_average;
     }
+
+    public MovieData(Parcel in) {
+        String[] data = new String[6];
+        in.readStringArray(data);
+        this.original_title = data[0];
+        this.poster_path = data[1];
+        this.popularity = data[2];
+        this.overview = data[3];
+        this.release_date = data[4];
+        this.vote_average = data[5];
+    }
+
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeStringArray(new String[]{this.original_title
+                , this.poster_path
+                , this.popularity
+                , this.overview
+                , this.release_date
+                , this.vote_average});
+    }
+
+    public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
+        public MovieData createFromParcel(Parcel in) {
+            return new MovieData(in);
+        }
+
+        public MovieData[] newArray(int size) {
+            return new MovieData[size];
+        }
+    };
 
     public String getOriginal_title() {
         return original_title;

@@ -14,6 +14,8 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import gurpreetsk.me.popularmovies1.Model.MovieData;
+
 public class DetailActivity extends AppCompatActivity {
 
     ImageView imageView;
@@ -29,13 +31,15 @@ public class DetailActivity extends AppCompatActivity {
 
         getHandles();
 
-        setTitle(getIntent().getStringExtra(MovieGridViewFragment.EXTRA_TITLE));
+        MovieData data = getIntent().getParcelableExtra(Intent.EXTRA_TEXT);
 
-        vote_average.setText(RATED + getIntent().getStringExtra(MovieGridViewFragment.EXTRA_VOTE_AVERAGE));
-        release_date.setText(RELEASE_DATE + getIntent().getStringExtra(MovieGridViewFragment.EXTRA_RELEASE_DATE));
-        overview.setText(getIntent().getStringExtra(MovieGridViewFragment.EXTRA_OVERVIEW));
+        setTitle(data.getOriginal_title());
+
+        vote_average.setText(RATED + data.getVote_average());
+        release_date.setText(RELEASE_DATE + data.getRelease_date());
+        overview.setText(data.getOverview());
         Uri builder = Uri.parse("http://image.tmdb.org/t/p/w185/").buildUpon()
-                .appendEncodedPath(getIntent().getStringExtra(MovieGridViewFragment.EXTRA_IMAGE))
+                .appendEncodedPath(data.getPoster_path())
                 .build();
         Picasso.with(this).load(builder.toString()).fit().into(imageView);
 

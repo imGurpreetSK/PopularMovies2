@@ -20,7 +20,6 @@ public class SettingsActivity extends PreferenceActivity implements Preference.O
 
         bindPreferenceSummaryToValue(findPreference(getString(R.string.sort)));
 
-
     }
 
     @Override

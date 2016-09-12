@@ -3,6 +3,7 @@ package gurpreetsk.me.popularmovies1;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Movie;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -64,9 +65,6 @@ public class MovieGridViewFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
-        sortBy = prefs.getString(getString(R.string.sort), "");
-
         setHasOptionsMenu(true);
 
     }
@@ -87,11 +85,12 @@ public class MovieGridViewFragment extends Fragment {
             @Override
             public void onClick(View view, int position) {
                 Intent intent = new Intent(getContext(), DetailActivity.class);
-                intent.putExtra(EXTRA_TITLE, MovieList.get(position).getOriginal_title());
-                intent.putExtra(EXTRA_IMAGE, MovieList.get(position).getPoster_path());
-                intent.putExtra(EXTRA_OVERVIEW, MovieList.get(position).getOverview());
-                intent.putExtra(EXTRA_RELEASE_DATE, MovieList.get(position).getRelease_date());
-                intent.putExtra(EXTRA_VOTE_AVERAGE, MovieList.get(position).getVote_average());
+                intent.putExtra(Intent.EXTRA_TEXT, MovieList.get(position));
+//                intent.putExtra(EXTRA_TITLE, MovieList.get(position).getOriginal_title());
+//                intent.putExtra(EXTRA_IMAGE, MovieList.get(position).getPoster_path());
+//                intent.putExtra(EXTRA_OVERVIEW, MovieList.get(position).getOverview());
+//                intent.putExtra(EXTRA_RELEASE_DATE, MovieList.get(position).getRelease_date());
+//                intent.putExtra(EXTRA_VOTE_AVERAGE, MovieList.get(position).getVote_average());
                 startActivity(intent);
             }
         }));
@@ -100,6 +99,9 @@ public class MovieGridViewFragment extends Fragment {
     }
 
     private void fetchJSON() {
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
+        sortBy = prefs.getString(getString(R.string.sort), "");
 
         RequestQueue queue = Volley.newRequestQueue(getActivity());
         Uri uri = Uri.parse("https://api.themoviedb.org/3/discover/movie?").buildUpon()
@@ -151,7 +153,7 @@ public class MovieGridViewFragment extends Fragment {
         if (isNetworkConnected())
             fetchJSON();
         else
-            Toast.makeText(getContext(), "Network unavailable\nCheck connection and try again", Toast.LENGTH_LONG).show();
+            Toast.makeText(getContext(), getString(R.string.no_internet), Toast.LENGTH_LONG).show();
     }
 
     @Override
