@@ -3,7 +3,6 @@ package gurpreetsk.me.popularmovies1;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Movie;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -36,8 +35,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import gurpreetsk.me.popularmovies1.Adapters.MoviesAdapter;
-import gurpreetsk.me.popularmovies1.Model.MovieData;
+import gurpreetsk.me.popularmovies1.adapters.MoviesAdapter;
+import gurpreetsk.me.popularmovies1.models.MovieData;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -50,11 +49,6 @@ public class MovieGridViewFragment extends Fragment {
     private MoviesAdapter adapter;
 
     public static final String EXTRA_TITLE = "title";
-    public static final String EXTRA_OVERVIEW = "overview";
-    public static final String EXTRA_RELEASE_DATE = "release_data";
-    public static final String EXTRA_VOTE_AVERAGE = "vote_average";
-    public static final String EXTRA_IMAGE = "image";
-
     String sortBy;
 
     public MovieGridViewFragment() {
@@ -86,11 +80,6 @@ public class MovieGridViewFragment extends Fragment {
             public void onClick(View view, int position) {
                 Intent intent = new Intent(getContext(), DetailActivity.class);
                 intent.putExtra(Intent.EXTRA_TEXT, MovieList.get(position));
-//                intent.putExtra(EXTRA_TITLE, MovieList.get(position).getOriginal_title());
-//                intent.putExtra(EXTRA_IMAGE, MovieList.get(position).getPoster_path());
-//                intent.putExtra(EXTRA_OVERVIEW, MovieList.get(position).getOverview());
-//                intent.putExtra(EXTRA_RELEASE_DATE, MovieList.get(position).getRelease_date());
-//                intent.putExtra(EXTRA_VOTE_AVERAGE, MovieList.get(position).getVote_average());
                 startActivity(intent);
             }
         }));
@@ -100,16 +89,25 @@ public class MovieGridViewFragment extends Fragment {
 
     private void fetchJSON() {
 
+        Uri uri;
+
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
-        sortBy = prefs.getString(getString(R.string.sort), "");
+        sortBy = prefs.getString(getString(R.string.sort), getString(R.string.popularity));
 
         RequestQueue queue = Volley.newRequestQueue(getActivity());
-        Uri uri = Uri.parse("https://api.themoviedb.org/3/discover/movie?").buildUpon()
-                .appendQueryParameter(getString(R.string.sort_by), sortBy)
-                .appendQueryParameter(getString(R.string.certification_country), getString(R.string.country))
-                .appendQueryParameter(getString(R.string.certification_lte), getString(R.string.G))
-                .appendQueryParameter(getString(R.string.API_KEY_ATTR), getString(R.string.MOVIEDB_API_KEY))
-                .build();
+        if (sortBy.equals(getString(R.string.popularity))) {
+
+            uri = Uri.parse("http://api.themoviedb.org/3/movie/popular?")
+                    .buildUpon()
+                    .appendQueryParameter(getString(R.string.API_KEY_ATTR), getString(R.string.MOVIEDB_API_KEY))
+                    .build();
+
+        } else{
+            uri = Uri.parse("http://api.themoviedb.org/3/movie/top_rated?")
+                    .buildUpon()
+                    .appendQueryParameter(getString(R.string.API_KEY_ATTR), getString(R.string.MOVIEDB_API_KEY))
+                    .build();
+        }
 
         String url = uri.toString();
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,

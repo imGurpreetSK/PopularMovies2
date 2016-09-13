@@ -1,4 +1,4 @@
-package gurpreetsk.me.popularmovies1.Model;
+package gurpreetsk.me.popularmovies1.models;
 
 import android.os.Parcel;
 import android.os.Parcelable;

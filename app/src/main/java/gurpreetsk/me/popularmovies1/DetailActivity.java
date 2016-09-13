@@ -7,14 +7,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.ShareActionProvider;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-import gurpreetsk.me.popularmovies1.Model.MovieData;
+import gurpreetsk.me.popularmovies1.models.MovieData;
 
 public class DetailActivity extends AppCompatActivity {
 

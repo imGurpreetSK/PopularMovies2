@@ -1,9 +1,8 @@
-package gurpreetsk.me.popularmovies1.Adapters;
+package gurpreetsk.me.popularmovies1.adapters;
 
 import android.content.Context;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +13,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-import gurpreetsk.me.popularmovies1.Model.MovieData;
+import gurpreetsk.me.popularmovies1.models.MovieData;
 import gurpreetsk.me.popularmovies1.R;
 
 /**
@@ -45,7 +44,6 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHold
         Uri builder = Uri.parse("http://image.tmdb.org/t/p/w500/").buildUpon()
                 .appendEncodedPath(movie.getPoster_path())
                 .build();
-//        Log.v(TAG, builder.toString());
         Picasso.with(context).load(builder).into(holder.imageView);
     }
 
