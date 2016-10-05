@@ -28,7 +28,8 @@ public class FavouritesAdapter extends CursorAdapter {
 
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup viewGroup) {
-        return LayoutInflater.from(context).inflate(R.layout.grid_layout_element, viewGroup, false);
+        View v = LayoutInflater.from(context).inflate(R.layout.grid_layout_element, viewGroup, false);
+        return v;
     }
 
     @Override

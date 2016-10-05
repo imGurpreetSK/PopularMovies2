@@ -1,7 +1,6 @@
 package gurpreetsk.me.popularmovies1;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -14,9 +13,6 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -36,9 +32,7 @@ import java.util.ArrayList;
 import gurpreetsk.me.popularmovies1.adapters.MoviesAdapter;
 import gurpreetsk.me.popularmovies1.models.MovieData;
 
-/**
- * A simple {@link Fragment} subclass.
- */
+
 public class MovieGridViewFragment extends Fragment{
 
     public static final String TAG = MovieGridViewFragment.class.getSimpleName();
@@ -181,6 +175,5 @@ public class MovieGridViewFragment extends Fragment{
         return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
 
     }
-
 
 }

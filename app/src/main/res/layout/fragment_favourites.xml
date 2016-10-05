@@ -4,10 +4,10 @@
     android:layout_height="match_parent"
     tools:context="gurpreetsk.me.popularmovies1.FavouritesFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <GridView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:id="@+id/favourites_grid_view"
+        android:numColumns="2"/>
 
 </FrameLayout>
