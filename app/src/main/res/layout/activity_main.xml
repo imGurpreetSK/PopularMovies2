@@ -5,10 +5,15 @@
     android:layout_height="match_parent"
     tools:context="gurpreetsk.me.popularmovies1.MainActivity">
 
-    <fragment
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/main_fragment_container"/>
+
+</FrameLayout>
+<!--<fragment
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         class="gurpreetsk.me.popularmovies1.MovieGridViewFragment"
         android:id="@+id/fragment_grid_view"
-        tools:layout="@layout/fragment_movie_grid_view" />
-</FrameLayout>
+        tools:layout="@layout/fragment_movie_grid_view" />  -->

@@ -18,4 +18,8 @@
     <string name="action_share">Share</string>
     <string name="no_internet">"Network unavailable\nCheck connection and try again"</string>
 
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="action_favourites">Favourites</string>
+
 </resources>

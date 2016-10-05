@@ -13,12 +13,10 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -41,7 +39,7 @@ import gurpreetsk.me.popularmovies1.models.MovieData;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MovieGridViewFragment extends Fragment {
+public class MovieGridViewFragment extends Fragment{
 
     public static final String TAG = MovieGridViewFragment.class.getSimpleName();
 
@@ -53,6 +51,11 @@ public class MovieGridViewFragment extends Fragment {
 
     public MovieGridViewFragment() {
         // Required empty public constructor
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
     }
 
     @Override
@@ -74,15 +77,6 @@ public class MovieGridViewFragment extends Fragment {
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getContext(), 2);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
-
-        recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getContext(), recyclerView, new ClickListener() {
-            @Override
-            public void onClick(View view, int position) {
-                Intent intent = new Intent(getContext(), DetailActivity.class);
-                intent.putExtra(Intent.EXTRA_TEXT, MovieList.get(position));
-                startActivity(intent);
-            }
-        }));
 
         return v;
     }
@@ -160,7 +154,7 @@ public class MovieGridViewFragment extends Fragment {
         if (!MovieList.isEmpty() && isNetworkConnected())
             MovieList.clear();
     }
-
+/*
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
@@ -177,7 +171,7 @@ public class MovieGridViewFragment extends Fragment {
         return super.onOptionsItemSelected(item);
 
     }
-
+*/
     private boolean isNetworkConnected() {
         ConnectivityManager cm =
                 (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -188,43 +182,5 @@ public class MovieGridViewFragment extends Fragment {
 
     }
 
-    public interface ClickListener {
-        void onClick(View view, int position);
-    }
-
-    public static class RecyclerTouchListener implements RecyclerView.OnItemTouchListener {
-
-        private GestureDetector gestureDetector;
-        private ClickListener clickListener;
-
-        public RecyclerTouchListener(Context context, final RecyclerView recyclerView, final ClickListener clickListener) {
-            this.clickListener = clickListener;
-            gestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
-                @Override
-                public boolean onSingleTapUp(MotionEvent e) {
-                    return true;
-                }
-            });
-        }
-
-        @Override
-        public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
-
-            View child = rv.findChildViewUnder(e.getX(), e.getY());
-            if (child != null && clickListener != null && gestureDetector.onTouchEvent(e)) {
-                clickListener.onClick(child, rv.getChildPosition(child));
-            }
-            return false;
-        }
-
-        @Override
-        public void onTouchEvent(RecyclerView rv, MotionEvent e) {
-        }
-
-        @Override
-        public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
-
-        }
-    }
 
 }

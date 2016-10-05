@@ -30,6 +30,11 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
+
+        <provider
+            android:authorities="gurpreetsk.me.popularmovies1"
+            android:name=".data.DataProvider"/>
+
     </application>
 
 </manifest>
