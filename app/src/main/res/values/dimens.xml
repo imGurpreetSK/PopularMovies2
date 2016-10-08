@@ -5,4 +5,5 @@
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="card_margin">8dp</dimen>
     <dimen name="margin_bottom">24dp</dimen>
+    <dimen name="margin_bottom_large">32dp</dimen>
 </resources>

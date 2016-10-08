@@ -1,81 +1,132 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="gurpreetsk.me.popularmovies1.DetailActivity">
+    android:layout_gravity="center"
+    android:layout_margin="@dimen/card_margin"
+    android:elevation="4dp"
+    app:cardCornerRadius="4dp">
 
-    <LinearLayout
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/detail_scrollbar"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight=".4"
-        android:orientation="horizontal">
+        android:layout_height="match_parent">
 
-        <ImageView
-            android:id="@+id/detail_image_view"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="start"
-            android:contentDescription="@string/detail_image"
-            android:minWidth="200dp" />
-
-        <ScrollView
+        <LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/activity_vertical_margin"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:paddingTop="@dimen/activity_vertical_margin"
+            tools:context="gurpreetsk.me.popularmovies1.DetailActivity">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:layout_marginBottom="@dimen/margin_bottom_large">
+
+                <ImageView
+                    android:id="@+id/detail_image_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="start"
+                    android:contentDescription="@string/detail_image"
+                    android:minWidth="200dp" />
+
+                <ScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_margin="@dimen/card_margin"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <com.like.LikeButton
+                            android:id="@+id/detail_like_btn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:icon_size="32dp" />
+
+                        <TextView
+                            android:id="@+id/detail_vote_average"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginBottom="@dimen/margin_bottom"
+                            android:textSize="20sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/detail_release_date"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginBottom="@dimen/margin_bottom"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+                </ScrollView>
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_margin="@dimen/card_margin"
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <com.like.LikeButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/detail_like_btn"
-                    app:icon_size="32dp"/>
-                
-                <TextView
-                    android:id="@+id/detail_vote_average"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginBottom="@dimen/margin_bottom"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
+                android:layout_marginBottom="@dimen/margin_bottom_large">
 
                 <TextView
-                    android:id="@+id/detail_release_date"
+                    android:id="@+id/detail_overview"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_gravity="center"
-                    android:layout_marginBottom="@dimen/margin_bottom"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
+                    android:gravity="center"
+                    android:textSize="16sp" />
             </LinearLayout>
-        </ScrollView>
-    </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight=".6">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginBottom="@dimen/margin_bottom">
 
-        <TextView
-            android:id="@+id/detail_overview"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:textSize="16sp" />
-    </LinearLayout>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/reviews"
+                    android:textStyle="bold" />
 
-</LinearLayout>
+                <com.github.paolorotolo.expandableheightlistview.ExpandableHeightListView
+                    android:id="@+id/reviews_listview"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginBottom="@dimen/margin_bottom">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/trailers"
+                    android:textStyle="bold" />
+
+                <com.github.paolorotolo.expandableheightlistview.ExpandableHeightListView
+                    android:id="@+id/trailers_listview"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+</android.support.v7.widget.CardView>

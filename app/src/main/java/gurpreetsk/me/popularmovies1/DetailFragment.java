@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -20,6 +21,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.github.paolorotolo.expandableheightlistview.ExpandableHeightListView;
 import com.like.LikeButton;
 import com.like.OnLikeListener;
 import com.squareup.picasso.Picasso;
@@ -46,6 +48,11 @@ public class DetailFragment extends Fragment {
     ImageView imageView;
     TextView vote_average, release_date, overview;
     LikeButton likeButton;
+    ExpandableHeightListView reviewsListView;
+    ExpandableHeightListView trailersListView;
+
+    ArrayAdapter<String> reviewsAdapter;
+    ArrayAdapter<String> trailersAdapter;
 
     private final String RATED = "Rated: ";
     private final String RELEASE_DATE = "Released: ";
@@ -53,8 +60,8 @@ public class DetailFragment extends Fragment {
     ArrayList<String> reviews = new ArrayList<>();
     ArrayList<String> trailers = new ArrayList<>();
 
-    public DetailFragment() {}
-
+    public DetailFragment() {
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -66,14 +73,13 @@ public class DetailFragment extends Fragment {
 
         final Bundle data = getArguments();
 
-
         getActivity().setTitle(data.getString("title"));
 
         vote_average.setText(RATED + data.getString("vote_average"));
         release_date.setText(RELEASE_DATE + data.get("release"));
         overview.setText(data.getString("desc"));
         ArrayList<String> idList = queryFavourites();
-        if(idList.contains(data.getString("id")))
+        if (idList.contains(data.getString("id")))
             likeButton.setLiked(true);
         likeButton.setOnLikeListener(new OnLikeListener() {
             @Override
@@ -106,8 +112,8 @@ public class DetailFragment extends Fragment {
                 .build();
         Picasso.with(getActivity()).load(builder.toString()).fit().into(imageView);
 
-        fetchReviews(data.getString("id"));
-        fetchTrailers(data.getString("id"));
+        fetchAndSetupReviews(data.getString("id"));
+        fetchAndSetupTrailers(data.getString("id"));
 
         return v;
     }
@@ -118,9 +124,11 @@ public class DetailFragment extends Fragment {
         release_date = (TextView) v.findViewById(R.id.detail_release_date);
         overview = (TextView) v.findViewById(R.id.detail_overview);
         likeButton = (LikeButton) v.findViewById(R.id.detail_like_btn);
+        trailersListView = (ExpandableHeightListView) v.findViewById(R.id.trailers_listview);
+        reviewsListView = (ExpandableHeightListView) v.findViewById(R.id.reviews_listview);
     }
 
-    private void fetchReviews(String id) {
+    private void fetchAndSetupReviews(String id) {
 
         final Uri reviewUri = Uri.parse("http://api.themoviedb.org/3/movie/" + id + "/reviews?").buildUpon()
                 .appendQueryParameter(getString(R.string.API_KEY_ATTR), getString(R.string.MOVIEDB_API_KEY))
@@ -139,7 +147,7 @@ public class DetailFragment extends Fragment {
                                 JSONObject obj = response.getJSONArray("results").getJSONObject(i);
                                 reviews.add(obj.getString("content"));
                             }
-//                            adapter.notifyDataSetChanged();
+                            reviewsAdapter.notifyDataSetChanged();
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -156,17 +164,22 @@ public class DetailFragment extends Fragment {
 
         queue.add(request);
 
+        reviewsAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, reviews);
+//        if (reviews.isEmpty()) reviews.add("No reviews available");
+        reviewsListView.setAdapter(reviewsAdapter);
+        reviewsListView.setExpanded(true);
+
     }
 
-    private void fetchTrailers(String id) {
+    private void fetchAndSetupTrailers(String id) {
 
-        final Uri reviewUri = Uri.parse("http://api.themoviedb.org/3/movie/" + id + "/videos?").buildUpon()
+        final Uri videoUri = Uri.parse("http://api.themoviedb.org/3/movie/" + id + "/videos?").buildUpon()
                 .appendQueryParameter(getString(R.string.API_KEY_ATTR), getString(R.string.MOVIEDB_API_KEY))
                 .build();
 
         RequestQueue queue = Volley.newRequestQueue(getActivity());
 
-        String url = reviewUri.toString();
+        String url = videoUri.toString();
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>() {
 
@@ -175,9 +188,9 @@ public class DetailFragment extends Fragment {
                         try {
                             for (int i = 0; i < response.length(); i++) {
                                 JSONObject obj = response.getJSONArray("results").getJSONObject(i);
-                                trailers.add(obj.getString("key"));
+                                trailers.add("youtu.be/" + obj.getString("key"));
                             }
-//                            adapter.notifyDataSetChanged();
+                            trailersAdapter.notifyDataSetChanged();
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -193,6 +206,11 @@ public class DetailFragment extends Fragment {
                 });
 
         queue.add(request);
+
+        trailersAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, trailers);
+//        if (trailers.isEmpty()) trailers.add("No trailers available");
+        trailersListView.setAdapter(trailersAdapter);
+        trailersListView.setExpanded(true);
 
     }
 
@@ -204,7 +222,6 @@ public class DetailFragment extends Fragment {
         for (Database element : list) {
             idList.add(element.ColumnID);
         }
-
         return idList;
 
     }
