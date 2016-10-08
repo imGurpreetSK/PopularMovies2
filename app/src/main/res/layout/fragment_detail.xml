@@ -100,11 +100,17 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/reviews"
+                    android:text="@string/trailers"
+                    android:textSize="18sp"
+                    android:gravity="center"
                     android:textStyle="bold" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/colorAccent"/>
 
                 <com.github.paolorotolo.expandableheightlistview.ExpandableHeightListView
-                    android:id="@+id/reviews_listview"
+                    android:id="@+id/trailers_listview"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content" />
             </LinearLayout>
@@ -118,11 +124,17 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/trailers"
+                    android:text="@string/reviews"
+                    android:gravity="center"
+                    android:textSize="18sp"
                     android:textStyle="bold" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/colorAccent"/>
 
                 <com.github.paolorotolo.expandableheightlistview.ExpandableHeightListView
-                    android:id="@+id/trailers_listview"
+                    android:id="@+id/reviews_listview"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content" />
             </LinearLayout>

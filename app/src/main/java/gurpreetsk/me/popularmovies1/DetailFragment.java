@@ -11,9 +11,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -32,11 +34,9 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import gurpreetsk.me.popularmovies1.R;
 import gurpreetsk.me.popularmovies1.data.Database;
 import gurpreetsk.me.popularmovies1.data.FavouritesTable;
 import gurpreetsk.me.popularmovies1.data.TableStructure;
-import gurpreetsk.me.popularmovies1.models.MovieData;
 
 import static com.android.volley.VolleyLog.TAG;
 
@@ -59,6 +59,7 @@ public class DetailFragment extends Fragment {
 
     ArrayList<String> reviews = new ArrayList<>();
     ArrayList<String> trailers = new ArrayList<>();
+    ArrayList<String> trailersName = new ArrayList<>();
 
     public DetailFragment() {
     }
@@ -110,7 +111,7 @@ public class DetailFragment extends Fragment {
         Uri builder = Uri.parse("http://image.tmdb.org/t/p/w185/").buildUpon()
                 .appendEncodedPath(data.getString("poster"))
                 .build();
-        Picasso.with(getActivity()).load(builder.toString()).fit().into(imageView);
+        Picasso.with(getActivity()).load(builder.toString()).fit().error(R.mipmap.ic_launcher).into(imageView);
 
         fetchAndSetupReviews(data.getString("id"));
         fetchAndSetupTrailers(data.getString("id"));
@@ -139,7 +140,6 @@ public class DetailFragment extends Fragment {
         String url = reviewUri.toString();
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>() {
-
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
@@ -189,6 +189,7 @@ public class DetailFragment extends Fragment {
                             for (int i = 0; i < response.length(); i++) {
                                 JSONObject obj = response.getJSONArray("results").getJSONObject(i);
                                 trailers.add("youtu.be/" + obj.getString("key"));
+                                trailersName.add(obj.getString("name"));
                             }
                             trailersAdapter.notifyDataSetChanged();
                         } catch (JSONException e) {
@@ -211,6 +212,15 @@ public class DetailFragment extends Fragment {
 //        if (trailers.isEmpty()) trailers.add("No trailers available");
         trailersListView.setAdapter(trailersAdapter);
         trailersListView.setExpanded(true);
+
+        trailersListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+//                Intent intent = new Intent(Intent.ACTION_SEND);
+//                intent.setType()
+                Toast.makeText(getContext(), i + " clicked!", Toast.LENGTH_SHORT).show();
+            }
+        });
 
     }
 
