@@ -8,9 +8,10 @@ import android.os.Parcelable;
  */
 public class MovieData implements Parcelable {
 
-    private String original_title, poster_path, popularity, overview, release_date, vote_average;
+    private String id, original_title, poster_path, popularity, overview, release_date, vote_average;
 
-    public MovieData(String original_title, String poster_path, String popularity, String overview, String release_date, String vote_average) {
+    public MovieData(String id, String original_title, String poster_path, String popularity, String overview, String release_date, String vote_average) {
+        this.id = id;
         this.original_title = original_title;
         this.poster_path = poster_path;
         this.popularity = popularity;
@@ -20,14 +21,15 @@ public class MovieData implements Parcelable {
     }
 
     public MovieData(Parcel in) {
-        String[] data = new String[6];
+        String[] data = new String[7];
         in.readStringArray(data);
-        this.original_title = data[0];
-        this.poster_path = data[1];
-        this.popularity = data[2];
-        this.overview = data[3];
-        this.release_date = data[4];
-        this.vote_average = data[5];
+        this.id = data[0];
+        this.original_title = data[1];
+        this.poster_path = data[2];
+        this.popularity = data[3];
+        this.overview = data[4];
+        this.release_date = data[5];
+        this.vote_average = data[6];
     }
 
     public int describeContents() {
@@ -36,7 +38,8 @@ public class MovieData implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeStringArray(new String[]{this.original_title
+        dest.writeStringArray(new String[]{this.id
+                , this.original_title
                 , this.poster_path
                 , this.popularity
                 , this.overview
@@ -53,6 +56,14 @@ public class MovieData implements Parcelable {
             return new MovieData[size];
         }
     };
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getOriginal_title() {
         return original_title;

@@ -1,7 +1,6 @@
 package gurpreetsk.me.popularmovies1;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -13,12 +12,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.GestureDetector;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -38,10 +32,8 @@ import java.util.ArrayList;
 import gurpreetsk.me.popularmovies1.adapters.MoviesAdapter;
 import gurpreetsk.me.popularmovies1.models.MovieData;
 
-/**
- * A simple {@link Fragment} subclass.
- */
-public class MovieGridViewFragment extends Fragment {
+
+public class MovieGridViewFragment extends Fragment{
 
     public static final String TAG = MovieGridViewFragment.class.getSimpleName();
 
@@ -51,8 +43,11 @@ public class MovieGridViewFragment extends Fragment {
     public static final String EXTRA_TITLE = "title";
     String sortBy;
 
-    public MovieGridViewFragment() {
-        // Required empty public constructor
+    public MovieGridViewFragment() {}
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
     }
 
     @Override
@@ -60,7 +55,6 @@ public class MovieGridViewFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         setHasOptionsMenu(true);
-
     }
 
     @Override
@@ -74,15 +68,6 @@ public class MovieGridViewFragment extends Fragment {
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getContext(), 2);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
-
-        recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getContext(), recyclerView, new ClickListener() {
-            @Override
-            public void onClick(View view, int position) {
-                Intent intent = new Intent(getContext(), DetailActivity.class);
-                intent.putExtra(Intent.EXTRA_TEXT, MovieList.get(position));
-                startActivity(intent);
-            }
-        }));
 
         return v;
     }
@@ -118,13 +103,14 @@ public class MovieGridViewFragment extends Fragment {
                         try {
                             for (int i = 0; i < 20; i++) {
                                 JSONObject obj = response.getJSONArray("results").getJSONObject(i);
+                                String id = obj.getString("id");
                                 String title = obj.getString("original_title");
                                 String poster = obj.getString("poster_path");
                                 String popularity = obj.getString("popularity");
                                 String overview = obj.getString("overview");
                                 String release_date = obj.getString("release_date");
                                 String vote_average = obj.getString("vote_average");
-                                MovieList.add(new MovieData(title, poster, popularity, overview, release_date, vote_average));
+                                MovieList.add(new MovieData(id, title, poster, popularity, overview, release_date, vote_average));
                             }
                             adapter.notifyDataSetChanged();
                         } catch (JSONException e) {
@@ -161,23 +147,6 @@ public class MovieGridViewFragment extends Fragment {
             MovieList.clear();
     }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.main, menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        switch (item.getItemId()) {
-            case R.id.menu_sort_by:
-                startActivity(new Intent(getContext(), SettingsActivity.class));
-        }
-        return super.onOptionsItemSelected(item);
-
-    }
-
     private boolean isNetworkConnected() {
         ConnectivityManager cm =
                 (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -186,45 +155,6 @@ public class MovieGridViewFragment extends Fragment {
 
         return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
 
-    }
-
-    public interface ClickListener {
-        void onClick(View view, int position);
-    }
-
-    public static class RecyclerTouchListener implements RecyclerView.OnItemTouchListener {
-
-        private GestureDetector gestureDetector;
-        private ClickListener clickListener;
-
-        public RecyclerTouchListener(Context context, final RecyclerView recyclerView, final ClickListener clickListener) {
-            this.clickListener = clickListener;
-            gestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
-                @Override
-                public boolean onSingleTapUp(MotionEvent e) {
-                    return true;
-                }
-            });
-        }
-
-        @Override
-        public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
-
-            View child = rv.findChildViewUnder(e.getX(), e.getY());
-            if (child != null && clickListener != null && gestureDetector.onTouchEvent(e)) {
-                clickListener.onClick(child, rv.getChildPosition(child));
-            }
-            return false;
-        }
-
-        @Override
-        public void onTouchEvent(RecyclerView rv, MotionEvent e) {
-        }
-
-        @Override
-        public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
-
-        }
     }
 
 }

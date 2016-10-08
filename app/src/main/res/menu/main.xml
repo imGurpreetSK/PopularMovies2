@@ -3,9 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:title="@string/sort_preference"
+        android:icon="@mipmap/ic_launcher"
+        android:title="@string/action_favourites"
+        app:showAsAction="always"
+        android:id="@+id/swapFavouritesFragment"/>
+
+    <item
         android:id="@+id/menu_sort_by"
         android:orderInCategory="100"
-        app:showAsAction="never"/>
+        android:title="@string/sort_preference"
+        app:showAsAction="never" />
 
 </menu>

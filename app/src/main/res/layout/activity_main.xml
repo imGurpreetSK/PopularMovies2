@@ -3,12 +3,5 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="gurpreetsk.me.popularmovies1.MainActivity">
-
-    <fragment
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        class="gurpreetsk.me.popularmovies1.MovieGridViewFragment"
-        android:id="@+id/fragment_grid_view"
-        tools:layout="@layout/fragment_movie_grid_view" />
-</FrameLayout>
+    android:id="@+id/main_fragment_container"
+    tools:context="gurpreetsk.me.popularmovies1.MainActivity" />
