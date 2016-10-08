@@ -1,19 +1,13 @@
 package gurpreetsk.me.popularmovies1;
 
 import android.content.Intent;
-import android.graphics.Movie;
-import android.net.Uri;
+import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.ShareActionProvider;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ImageView;
-import android.widget.TextView;
-
-import com.squareup.picasso.Picasso;
 
 import gurpreetsk.me.popularmovies1.models.MovieData;
 

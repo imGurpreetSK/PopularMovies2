@@ -35,4 +35,6 @@ dependencies {
     compile 'ckm.simple:simple_sql_provider_processor:1.0.6'
     compile 'com.github.jd-alexander:LikeButton:0.2.0'
     testCompile 'junit:junit:4.12'
+    compile 'com.github.paolorotolo:expandableheightlistview:1.0.0'
+
 }
