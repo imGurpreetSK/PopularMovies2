@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import gurpreetsk.me.popularmovies1.utils.NetworkConnection;
+
 public class MainActivity extends AppCompatActivity {
 
     private boolean hasFavouritesFragment = false;
@@ -16,11 +18,20 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.main_fragment_container, new MovieGridViewFragment())
-                .commit();
-
+        if (NetworkConnection.isNetworkConnected(this)) {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.main_fragment_container, new MovieGridViewFragment())
+                    .commit();
+            setTitle(R.string.app_name);
+        }
+        else {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.main_fragment_container, new FavouritesFragment())
+                    .commit();
+            setTitle(R.string.action_favourites);
+        }
     }
 
     @Override

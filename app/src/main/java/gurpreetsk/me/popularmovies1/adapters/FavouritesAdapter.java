@@ -3,6 +3,7 @@ package gurpreetsk.me.popularmovies1.adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -19,6 +20,7 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 import gurpreetsk.me.popularmovies1.DetailActivity;
+import gurpreetsk.me.popularmovies1.FavouriteDetailFragment;
 import gurpreetsk.me.popularmovies1.R;
 import gurpreetsk.me.popularmovies1.data.Database;
 import gurpreetsk.me.popularmovies1.data.FavouritesTable;
@@ -64,7 +66,15 @@ public class FavouritesAdapter extends RecyclerView.Adapter<FavouritesAdapter.My
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, DetailActivity.class);
-                intent.putExtra(Intent.EXTRA_TEXT, (Parcelable) favouriteMovieList.get(holder.getAdapterPosition()));
+                intent.putExtra("ToBeShown", "FavouritesDetailFragment");
+                Bundle data = new Bundle();
+                data.putString("FavouritesTitle", movie.title);
+                data.putString("FavouritesID", movie.ColumnID);
+                data.putString("FavouritesDesc", movie.description);
+                data.putString("FavouritesAvg", movie.vote_average);
+                data.putString("FavouritesPoster", movie.poster);
+                data.putString("FavouritesRelease", movie.release_date);
+                intent.putExtra("Favourites", data);
                 context.startActivity(intent);
             }
         });

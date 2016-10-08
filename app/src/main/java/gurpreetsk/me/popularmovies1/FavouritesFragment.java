@@ -27,16 +27,12 @@ public class FavouritesFragment extends Fragment {
     FavouritesAdapter favouritesAdapter;
     ArrayList<Database> favouritesMovieList = new ArrayList<>();
 
-
     public FavouritesFragment() {}
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         View v = inflater.inflate(R.layout.fragment_favourites, container, false);
-
         RecyclerView recyclerView = (RecyclerView) v.findViewById(R.id.favouritesRecyclerView);
         favouritesAdapter = new FavouritesAdapter(favouritesMovieList, getActivity());
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getContext(), 2);

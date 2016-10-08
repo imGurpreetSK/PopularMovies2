@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import gurpreetsk.me.popularmovies1.DetailActivity;
+import gurpreetsk.me.popularmovies1.DetailFragment;
 import gurpreetsk.me.popularmovies1.data.Database;
 import gurpreetsk.me.popularmovies1.data.FavouritesTable;
 import gurpreetsk.me.popularmovies1.data.TableStructure;
@@ -69,6 +70,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHold
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, DetailActivity.class);
+                intent.putExtra("ToBeShown", "DetailFragment");
                 intent.putExtra(Intent.EXTRA_TEXT, MovieList.get(holder.getAdapterPosition()));
                 context.startActivity(intent);
             }

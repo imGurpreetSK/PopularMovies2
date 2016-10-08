@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name" translatable="false">Popular Movies</string>
-    <string name="MOVIEDB_API_KEY" translatable="false"></string>
+    <string name="MOVIEDB_API_KEY" translatable="false">3aa2264b5eb02d13e9cfcff7883cb9cd</string>
 
     <string name="movie_thumbnail">movie_thumbnail</string>
     <string name="API_KEY_ATTR">api_key</string>
@@ -21,5 +21,6 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="no_favourites">No favourites found</string>
 
 </resources>

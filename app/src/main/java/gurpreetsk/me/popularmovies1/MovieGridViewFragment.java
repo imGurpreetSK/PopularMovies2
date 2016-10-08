@@ -31,6 +31,7 @@ import java.util.ArrayList;
 
 import gurpreetsk.me.popularmovies1.adapters.MoviesAdapter;
 import gurpreetsk.me.popularmovies1.models.MovieData;
+import gurpreetsk.me.popularmovies1.utils.NetworkConnection;
 
 
 public class MovieGridViewFragment extends Fragment{
@@ -134,7 +135,7 @@ public class MovieGridViewFragment extends Fragment{
     @Override
     public void onStart() {
         super.onStart();
-        if (isNetworkConnected())
+        if (NetworkConnection.isNetworkConnected(getActivity()))
             fetchJSON();
         else
             Toast.makeText(getContext(), getString(R.string.no_internet), Toast.LENGTH_LONG).show();
@@ -143,18 +144,8 @@ public class MovieGridViewFragment extends Fragment{
     @Override
     public void onPause() {
         super.onPause();
-        if (!MovieList.isEmpty() && isNetworkConnected())
+        if (!MovieList.isEmpty() && NetworkConnection.isNetworkConnected(getActivity()))
             MovieList.clear();
-    }
-
-    private boolean isNetworkConnected() {
-        ConnectivityManager cm =
-                (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
-
-        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-
-        return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
-
     }
 
 }
