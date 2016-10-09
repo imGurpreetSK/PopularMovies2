@@ -75,14 +75,25 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/margin_bottom_large">
+            android:layout_marginBottom="@dimen/margin_bottom_large"
+            android:orientation="vertical">
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Overview"
+                android:textSize="22sp"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/colorAccent"/>
             <TextView
                 android:id="@+id/detail_overview"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
-                android:gravity="center"
+                android:gravity="fill"
+                android:textAlignment="gravity"
                 android:textSize="16sp" />
         </LinearLayout>
 
