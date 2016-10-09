@@ -86,7 +86,8 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/colorAccent"/>
+                android:background="@color/colorAccent"
+                android:layout_marginBottom="@dimen/bottom_margin" />
             <TextView
                 android:id="@+id/detail_overview"
                 android:layout_width="match_parent"
@@ -106,15 +107,14 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
                 android:text="@string/trailers"
-                android:textSize="22sp"
-                android:textStyle="bold" />
+                android:textSize="22sp" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/colorAccent" />
+                android:background="@color/colorAccent"
+                android:layout_marginBottom="@dimen/bottom_margin"/>
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/trailers_recycler_view"
@@ -131,15 +131,14 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
                 android:text="@string/reviews"
-                android:textSize="22sp"
-                android:textStyle="bold" />
+                android:textSize="22sp" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/colorAccent" />
+                android:background="@color/colorAccent"
+                android:layout_marginBottom="@dimen/bottom_margin"/>
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/reviews_recycler_view"
