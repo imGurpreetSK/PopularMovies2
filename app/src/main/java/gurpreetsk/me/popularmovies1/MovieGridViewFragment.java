@@ -1,9 +1,6 @@
 package gurpreetsk.me.popularmovies1;
 
-import android.content.Context;
 import android.content.SharedPreferences;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -44,6 +41,10 @@ public class MovieGridViewFragment extends Fragment{
     public static final String EXTRA_TITLE = "title";
     String sortBy;
 
+    public interface Callback {
+        void onItemSelected(Bundle data);
+    }
+
     public MovieGridViewFragment() {}
 
     @Override
@@ -54,7 +55,6 @@ public class MovieGridViewFragment extends Fragment{
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setHasOptionsMenu(true);
     }
 

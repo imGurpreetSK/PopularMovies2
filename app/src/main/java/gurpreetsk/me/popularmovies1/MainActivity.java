@@ -9,29 +9,29 @@ import android.view.MenuItem;
 
 import gurpreetsk.me.popularmovies1.utils.NetworkConnection;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements MovieGridViewFragment.Callback {
 
     private boolean hasFavouritesFragment = false;
+    public static boolean mTwoPane;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        if (NetworkConnection.isNetworkConnected(this)) {
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.main_fragment_container, new MovieGridViewFragment())
-                    .commit();
-            setTitle(R.string.app_name);
+        if (findViewById(R.id.details_fragment_container) != null) {
+            mTwoPane = true;
+//            if (NetworkConnection.isNetworkConnected(this)) {
+//                getSupportFragmentManager()
+//                        .beginTransaction()
+//                        .replace(R.id.details_fragment_container, new DetailFragment())
+//                        .commit();
+//            }
+        } else {
+            mTwoPane = false;
         }
-        else {
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.main_fragment_container, new FavouritesFragment())
-                    .commit();
-            setTitle(R.string.action_favourites);
-        }
+
+        setTitle(R.string.app_name);
     }
 
     @Override
@@ -46,21 +46,8 @@ public class MainActivity extends AppCompatActivity {
 
         switch (item.getItemId()) {
             case R.id.swapFavouritesFragment:
-                if (!hasFavouritesFragment) {
-                    FavouritesFragment favFrag = new FavouritesFragment();
-                    getSupportFragmentManager()
-                            .beginTransaction()
-                            .replace(R.id.main_fragment_container, favFrag)
-                            .commit();
-                    hasFavouritesFragment = true;
-                } else {
-                    MovieGridViewFragment movieFrag = new MovieGridViewFragment();
-                    getSupportFragmentManager()
-                            .beginTransaction()
-                            .replace(R.id.main_fragment_container, movieFrag)
-                            .commit();
-                    hasFavouritesFragment = false;
-                }
+                Intent intent = new Intent(this, FavouritesActivity.class);
+                startActivity(intent);
                 break;
             case R.id.menu_sort_by:
                 startActivity(new Intent(this, SettingsActivity.class));
@@ -71,5 +58,19 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
+    @Override
+    public void onItemSelected(Bundle data) {
+        if (mTwoPane) {
+            DetailFragment frag = new DetailFragment();
+            Bundle bun = new Bundle();
+            bun.putAll(data);
+            frag.setArguments(bun);
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.details_fragment_container, frag)
+                    .commit();
+        } else {
+            Intent intent = new Intent(this, DetailActivity.class);
+            startActivity(intent);
+        }
+    }
 }

@@ -3,7 +3,7 @@
     package="gurpreetsk.me.popularmovies1">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
@@ -25,15 +25,19 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
-        <activity android:name=".SettingsActivity"
+        <activity
+            android:name=".SettingsActivity"
             android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
+
         <provider
-            android:authorities="gurpreetsk.me.popularmovies1"
-            android:name=".data.FavouritesProvider" />
+            android:name=".data.FavouritesProvider"
+            android:authorities="gurpreetsk.me.popularmovies1" />
+
+        <activity android:name=".FavouritesActivity"></activity>
     </application>
 
 </manifest>

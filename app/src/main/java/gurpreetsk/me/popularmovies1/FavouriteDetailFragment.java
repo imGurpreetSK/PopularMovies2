@@ -4,6 +4,8 @@ package gurpreetsk.me.popularmovies1;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,6 +28,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import gurpreetsk.me.popularmovies1.adapters.ReviewsAdapter;
+import gurpreetsk.me.popularmovies1.adapters.TrailersAdapter;
 import gurpreetsk.me.popularmovies1.data.FavouritesTable;
 import gurpreetsk.me.popularmovies1.data.TableStructure;
 
@@ -41,12 +45,18 @@ public class FavouriteDetailFragment extends Fragment {
     ImageView imageView;
     TextView vote_average, release_date, overview;
     LikeButton likeButton;
+    RecyclerView reviewsRecyclerView, trailersRecyclerView;
 
-    ArrayList<String> reviews = new ArrayList<>();
-    ArrayList<String> trailers = new ArrayList<>();
+    ReviewsAdapter reviewsAdapter;
+    TrailersAdapter trailersAdapter;
 
     private final String RATED = "Rated: ";
-    private final String RELEASE_DATE = "Released: ";
+    private final String RELEASE_DATE = "Released:\n  ";
+
+    ArrayList<String> reviews = new ArrayList<>();
+    ArrayList<String> reviewer = new ArrayList<>();
+    ArrayList<String> trailers = new ArrayList<>();
+    ArrayList<String> trailersName = new ArrayList<>();
 
 
     public FavouriteDetailFragment() {
@@ -62,13 +72,22 @@ public class FavouriteDetailFragment extends Fragment {
         getHandles(v);
 
         final Bundle data = getArguments();
-//        MovieData data = getActivity().getIntent().getParcelableExtra(Intent.EXTRA_TEXT);
 
-        getActivity().setTitle(data.getString("FavouritesTitle"));
+        final String id = data.getString("FavouritesID");
+        final String title = data.getString("FavouritesTitle");
+        final String description = data.getString("FavouritesDesc");
+        final String vote_avg = data.getString("FavouritesAvg");
+        final String release = data.getString("FavouritesRelease");
+        final String poster = data.getString("FavouritesPoster");
 
-        vote_average.setText(RATED + data.getString("FavouritesAvg"));
-        release_date.setText(RELEASE_DATE + data.getString("FavouritesRelease"));
-        overview.setText(data.getString("FavouritesDesc"));
+        fetchAndSetupReviews(id);
+        fetchAndSetupTrailers(id);
+
+        getActivity().setTitle(title);
+
+        vote_average.setText(RATED + vote_avg);
+        release_date.setText(RELEASE_DATE + release);
+        overview.setText(description);
         likeButton.setLiked(true);
         likeButton.setOnLikeListener(new OnLikeListener() {
             @Override
@@ -77,40 +96,44 @@ public class FavouriteDetailFragment extends Fragment {
 
             @Override
             public void unLiked(LikeButton likeButton) {
-                getActivity().getContentResolver().delete(FavouritesTable.CONTENT_URI, TableStructure.COLUMN_ID + " = ?", new String[]{"" + data.getString("FavouritesID")});
+                getActivity().getContentResolver().delete(FavouritesTable.CONTENT_URI, TableStructure.COLUMN_ID + " = ?", new String[]{"" + id});
             }
         });
         Uri builder = Uri.parse("http://image.tmdb.org/t/p/w185/").buildUpon()
-                .appendEncodedPath(data.getString("FavouritesPoster"))
+                .appendEncodedPath(poster)
                 .build();
         Picasso.with(getActivity()).load(builder.toString()).fit().into(imageView);
 
-        fetchReviews(data.getString("FavouritesID"));
-        fetchTrailers(data.getString("FavouritesID"));
+        reviewsAdapter = new ReviewsAdapter(getContext(), reviews, reviewer);
+        reviewsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        reviewsRecyclerView.setAdapter(reviewsAdapter);
+
+        trailersAdapter = new TrailersAdapter(getContext(), trailers, trailersName);
+        trailersRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        trailersRecyclerView.setAdapter(trailersAdapter);
 
         return v;
     }
 
-    private void fetchReviews(String id) {
+    private void fetchAndSetupReviews(String id) {
 
         final Uri reviewUri = Uri.parse("http://api.themoviedb.org/3/movie/" + id + "/reviews?").buildUpon()
                 .appendQueryParameter(getString(R.string.API_KEY_ATTR), getString(R.string.MOVIEDB_API_KEY))
                 .build();
 
         RequestQueue queue = Volley.newRequestQueue(getActivity());
-
         String url = reviewUri.toString();
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>() {
-
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-                            for (int i = 0; i < response.length(); i++) {
+                            for (int i = 0; i < response.getJSONArray("results").length(); i++) {
                                 JSONObject obj = response.getJSONArray("results").getJSONObject(i);
                                 reviews.add(obj.getString("content"));
+                                reviewer.add(obj.getString("author"));
                             }
-//                            adapter.notifyDataSetChanged();
+                            reviewsAdapter.notifyDataSetChanged();
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -129,26 +152,27 @@ public class FavouriteDetailFragment extends Fragment {
 
     }
 
-    private void fetchTrailers(String id) {
+    private void fetchAndSetupTrailers(String id) {
 
-        final Uri reviewUri = Uri.parse("http://api.themoviedb.org/3/movie/" + id + "/videos?").buildUpon()
+        final Uri videoUri = Uri.parse("http://api.themoviedb.org/3/movie/" + id + "/videos?").buildUpon()
                 .appendQueryParameter(getString(R.string.API_KEY_ATTR), getString(R.string.MOVIEDB_API_KEY))
                 .build();
 
         RequestQueue queue = Volley.newRequestQueue(getActivity());
 
-        String url = reviewUri.toString();
+        String url = videoUri.toString();
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>() {
 
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-                            for (int i = 0; i < response.length(); i++) {
+                            for (int i = 0; i < response.getJSONArray("results").length(); i++) {
                                 JSONObject obj = response.getJSONArray("results").getJSONObject(i);
                                 trailers.add(obj.getString("key"));
+                                trailersName.add(obj.getString("name"));
                             }
-//                            adapter.notifyDataSetChanged();
+                            trailersAdapter.notifyDataSetChanged();
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -173,7 +197,21 @@ public class FavouriteDetailFragment extends Fragment {
         release_date = (TextView) v.findViewById(R.id.detail_release_date);
         overview = (TextView) v.findViewById(R.id.detail_overview);
         likeButton = (LikeButton) v.findViewById(R.id.detail_like_btn);
+        trailersRecyclerView = (RecyclerView) v.findViewById(R.id.trailers_recycler_view);
+        reviewsRecyclerView = (RecyclerView) v.findViewById(R.id.reviews_recycler_view);
     }
+
+//    private ArrayList<String> queryFavourites() {
+//
+//        Cursor c = getActivity().getContentResolver().query(FavouritesTable.CONTENT_URI, null, null, null, null);
+//        List<Database> list = FavouritesTable.getRows(c, true);
+//        ArrayList<String> idList = new ArrayList<>();
+//        for (Database element : list) {
+//            idList.add(element.ColumnID);
+//        }
+//        return idList;
+//
+//    }
 
 
 }

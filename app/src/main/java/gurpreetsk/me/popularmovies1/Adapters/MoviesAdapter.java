@@ -5,14 +5,13 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.net.Uri;
+import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.like.LikeButton;
@@ -24,11 +23,13 @@ import java.util.List;
 
 import gurpreetsk.me.popularmovies1.DetailActivity;
 import gurpreetsk.me.popularmovies1.DetailFragment;
+import gurpreetsk.me.popularmovies1.MainActivity;
+import gurpreetsk.me.popularmovies1.MovieGridViewFragment;
+import gurpreetsk.me.popularmovies1.R;
 import gurpreetsk.me.popularmovies1.data.Database;
 import gurpreetsk.me.popularmovies1.data.FavouritesTable;
 import gurpreetsk.me.popularmovies1.data.TableStructure;
 import gurpreetsk.me.popularmovies1.models.MovieData;
-import gurpreetsk.me.popularmovies1.R;
 
 /**
  * Created by Gurpreet on 11/09/16.
@@ -37,12 +38,14 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHold
 
     private List<MovieData> MovieList;
     Context context;
+//    boolean mTwoPane;
 
     public static final String TAG = MoviesAdapter.class.getSimpleName();
 
-    public MoviesAdapter(List<MovieData> movieList, Context context) {
+    public MoviesAdapter(List<MovieData> movieList, Context context) {//, boolean mTwoPane) {
         MovieList = movieList;
         this.context = context;
+//        this.mTwoPane = mTwoPane;
     }
 
     @Override
@@ -56,7 +59,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHold
         final MovieData movie = MovieList.get(position);
 
         ArrayList<String> idList = queryFavourites();
-        if(idList.contains(movie.getId()))
+        if (idList.contains(movie.getId()))
             holder.likeButton.setLiked(true);
 
 
@@ -69,10 +72,16 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHold
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context, DetailActivity.class);
-                intent.putExtra("ToBeShown", "DetailFragment");
-                intent.putExtra(Intent.EXTRA_TEXT, MovieList.get(holder.getAdapterPosition()));
-                context.startActivity(intent);
+                if (MainActivity.mTwoPane) {
+                    Bundle bundle = new Bundle();
+                    bundle.putParcelable("DETAIL", MovieList.get(holder.getAdapterPosition()));
+                    ((MovieGridViewFragment.Callback) context).onItemSelected(bundle);
+                } else {
+                    Intent intent = new Intent(context, DetailActivity.class);
+                    intent.putExtra("ToBeShown", "DetailFragment");
+                    intent.putExtra(Intent.EXTRA_TEXT, MovieList.get(holder.getAdapterPosition()));
+                    context.startActivity(intent);
+                }
             }
         });
 
@@ -80,7 +89,6 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHold
             @Override
             public void liked(LikeButton likeButton) {
                 likeButton.setLiked(true);
-
                 Database testInstance = new Database();
                 testInstance.title = movie.getOriginal_title();
                 testInstance.description = movie.getOverview();
@@ -97,13 +105,10 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHold
 
             @Override
             public void unLiked(LikeButton likeButton) {
-
                 likeButton.setLiked(false);
                 context.getContentResolver().delete(FavouritesTable.CONTENT_URI, TableStructure.COLUMN_ID + " = ?", new String[]{"" + movie.getId()});
-
             }
         });
-
     }
 
     private ArrayList<String> queryFavourites() {

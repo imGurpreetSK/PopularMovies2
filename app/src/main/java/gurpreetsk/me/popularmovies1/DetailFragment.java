@@ -5,7 +5,6 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -31,6 +30,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.jar.Manifest;
 
 import gurpreetsk.me.popularmovies1.adapters.ReviewsAdapter;
 import gurpreetsk.me.popularmovies1.adapters.TrailersAdapter;
@@ -72,7 +72,13 @@ public class DetailFragment extends Fragment {
 
         getHandles(v);
 
-        final Bundle data = getArguments();
+        Bundle data;
+        if (!MainActivity.mTwoPane) {
+            data = getArguments();
+        } else{
+            data = getArguments().getBundle("DETAIL");      //Error, data is null.
+        }
+
         final String id = data.getString("id");
         final String title = data.getString("title");
         final String description = data.getString("desc");
