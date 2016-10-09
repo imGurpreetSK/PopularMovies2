@@ -1,7 +1,6 @@
 package gurpreetsk.me.popularmovies1;
 
 
-import android.content.Intent;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.net.Uri;
@@ -13,11 +12,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -25,7 +21,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.github.paolorotolo.expandableheightlistview.ExpandableHeightListView;
 import com.like.LikeButton;
 import com.like.OnLikeListener;
 import com.squareup.picasso.Picasso;
@@ -52,14 +47,13 @@ public class DetailFragment extends Fragment {
     ImageView imageView;
     TextView vote_average, release_date, overview;
     LikeButton likeButton;
-    RecyclerView reviewsRecyclerView;
-    RecyclerView trailersRecyclerView;
+    RecyclerView reviewsRecyclerView, trailersRecyclerView;
 
     ReviewsAdapter reviewsAdapter;
     TrailersAdapter trailersAdapter;
 
     private final String RATED = "Rated: ";
-    private final String RELEASE_DATE = "Released: ";
+    private final String RELEASE_DATE = "Released:\n  ";
 
     ArrayList<String> reviews = new ArrayList<>();
     ArrayList<String> reviewer = new ArrayList<>();
@@ -170,7 +164,7 @@ public class DetailFragment extends Fragment {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-                            for (int i = 0; i < response.length(); i++) {
+                            for (int i = 0; i < response.getJSONArray("results").length(); i++) {
                                 JSONObject obj = response.getJSONArray("results").getJSONObject(i);
                                 reviews.add(obj.getString("content"));
                                 reviewer.add(obj.getString("author"));
@@ -209,7 +203,7 @@ public class DetailFragment extends Fragment {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-                            for (int i = 0; i < response.length(); i++) {
+                            for (int i = 0; i < response.getJSONArray("results").length(); i++) {
                                 JSONObject obj = response.getJSONArray("results").getJSONObject(i);
                                 trailers.add(obj.getString("key"));
                                 trailersName.add(obj.getString("name"));

@@ -8,7 +8,7 @@
     android:elevation="4dp"
     app:cardCornerRadius="4dp">
 
-    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    <android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/detail_scrollbar"
         android:layout_width="match_parent"
@@ -142,5 +142,5 @@
             </LinearLayout>
 
         </LinearLayout>
-    </ScrollView>
+    </android.support.v4.widget.NestedScrollView>
 </android.support.v7.widget.CardView>
