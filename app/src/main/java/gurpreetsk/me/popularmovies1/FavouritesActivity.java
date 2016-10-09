@@ -58,6 +58,7 @@ public class FavouritesActivity extends AppCompatActivity implements FavouritesF
                     .commit();
         } else {
             Intent intent = new Intent(this, DetailActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
             startActivity(intent);
         }
     }

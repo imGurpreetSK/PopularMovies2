@@ -47,6 +47,7 @@ public class MainActivity extends AppCompatActivity implements MovieGridViewFrag
         switch (item.getItemId()) {
             case R.id.swapFavouritesFragment:
                 Intent intent = new Intent(this, FavouritesActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                 startActivity(intent);
                 break;
             case R.id.menu_sort_by:
@@ -70,6 +71,7 @@ public class MainActivity extends AppCompatActivity implements MovieGridViewFrag
                     .commit();
         } else {
             Intent intent = new Intent(this, DetailActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
             startActivity(intent);
         }
     }

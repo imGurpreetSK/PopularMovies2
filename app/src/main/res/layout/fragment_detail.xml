@@ -39,7 +39,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_margin="@dimen/card_margin"
+                    android:layout_margin="@dimen/fab_margin"
                     android:gravity="center"
                     android:orientation="vertical">
 
@@ -47,6 +47,8 @@
                         android:id="@+id/detail_like_btn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        app:unlike_drawable="@drawable/heart_off_review"
+                        app:like_drawable="@drawable/heart_on"
                         app:icon_size="32dp" />
 
                     <TextView
@@ -95,7 +97,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="@string/trailers"
-                android:textSize="18sp"
+                android:textSize="22sp"
                 android:textStyle="bold" />
 
             <View
@@ -120,7 +122,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="@string/reviews"
-                android:textSize="18sp"
+                android:textSize="22sp"
                 android:textStyle="bold" />
 
             <View

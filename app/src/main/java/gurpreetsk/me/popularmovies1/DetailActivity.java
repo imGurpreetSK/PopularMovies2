@@ -51,7 +51,7 @@ public class DetailActivity extends AppCompatActivity {
         MenuItem item = menu.findItem(R.id.share_action_provider);
         ShareActionProvider sap = (ShareActionProvider) MenuItemCompat.getActionProvider(item);
         Intent intent = new Intent(Intent.ACTION_SEND);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET | Intent.FLAG_ACTIVITY_NO_HISTORY);
         intent.setType("text/plain");
         intent.putExtra(Intent.EXTRA_TEXT, getIntent().getStringExtra(MovieGridViewFragment.EXTRA_TITLE) + "#P1_Udacity");
         if (sap != null)

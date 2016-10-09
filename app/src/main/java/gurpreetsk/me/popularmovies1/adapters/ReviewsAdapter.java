@@ -1,15 +1,11 @@
 package gurpreetsk.me.popularmovies1.adapters;
 
 import android.content.Context;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.like.LikeButton;
 
 import java.util.ArrayList;
 
@@ -40,7 +36,7 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ReviewVi
     @Override
     public void onBindViewHolder(ReviewViewHolder holder, int position) {
 
-        holder.reviewTitle.setText(reviewer.get(position));
+        holder.reviewTitle.setText(reviewer.get(position)+" says: ");
         holder.reviewDesc.setText(review.get(position));
 
     }

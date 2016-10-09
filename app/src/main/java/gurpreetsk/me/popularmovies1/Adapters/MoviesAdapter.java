@@ -22,7 +22,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import gurpreetsk.me.popularmovies1.DetailActivity;
-import gurpreetsk.me.popularmovies1.DetailFragment;
 import gurpreetsk.me.popularmovies1.MainActivity;
 import gurpreetsk.me.popularmovies1.MovieGridViewFragment;
 import gurpreetsk.me.popularmovies1.R;
@@ -67,7 +66,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHold
         Uri builder = Uri.parse("http://image.tmdb.org/t/p/w500/").buildUpon()
                 .appendEncodedPath(movie.getPoster_path())
                 .build();
-        Picasso.with(context).load(builder).into(holder.imageView);
+        Picasso.with(context).load(builder).error(R.drawable.ic_error).into(holder.imageView);
 
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override

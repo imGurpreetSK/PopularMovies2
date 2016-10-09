@@ -8,4 +8,5 @@
     <dimen name="margin_bottom_large">32dp</dimen>
     <dimen name="container_card_margin">8dp</dimen>
     <dimen name="imageview_padding">48dp</dimen>
+    <dimen name="review_card_margin">4dp</dimen>
 </resources>

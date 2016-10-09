@@ -59,7 +59,7 @@ public class FavouritesAdapter extends RecyclerView.Adapter<FavouritesAdapter.My
 
         Picasso.with(context)
                 .load(builder)
-                .error(R.mipmap.ic_launcher)
+                .error(R.drawable.ic_error)
                 .into(holder.imageView);
 
         holder.cardView.setOnClickListener(new View.OnClickListener() {
