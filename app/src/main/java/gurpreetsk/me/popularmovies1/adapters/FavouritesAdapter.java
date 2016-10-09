@@ -19,6 +19,8 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 import gurpreetsk.me.popularmovies1.DetailActivity;
+import gurpreetsk.me.popularmovies1.FavouritesActivity;
+import gurpreetsk.me.popularmovies1.FavouritesFragment;
 import gurpreetsk.me.popularmovies1.R;
 import gurpreetsk.me.popularmovies1.data.Database;
 import gurpreetsk.me.popularmovies1.data.FavouritesTable;
@@ -63,8 +65,6 @@ public class FavouritesAdapter extends RecyclerView.Adapter<FavouritesAdapter.My
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context, DetailActivity.class);
-                intent.putExtra("ToBeShown", "FavouritesDetailFragment");
                 Bundle data = new Bundle();
                 data.putString("FavouritesTitle", movie.title);
                 data.putString("FavouritesID", movie.ColumnID);
@@ -72,8 +72,14 @@ public class FavouritesAdapter extends RecyclerView.Adapter<FavouritesAdapter.My
                 data.putString("FavouritesAvg", movie.vote_average);
                 data.putString("FavouritesPoster", movie.poster);
                 data.putString("FavouritesRelease", movie.release_date);
-                intent.putExtra("Favourites", data);
-                context.startActivity(intent);
+                if (FavouritesActivity.mTwoPane) {
+                    ((FavouritesFragment.Callback) context).onItemSelected(data);
+                } else {
+                    Intent intent = new Intent(context, DetailActivity.class);
+                    intent.putExtra("ToBeShown", "FavouritesDetailFragment");
+                    intent.putExtra("Favourites", data);
+                    context.startActivity(intent);
+                }
             }
         });
 

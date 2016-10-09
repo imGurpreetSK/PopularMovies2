@@ -71,7 +71,12 @@ public class FavouriteDetailFragment extends Fragment {
 
         getHandles(v);
 
-        final Bundle data = getArguments();
+        Bundle data;
+        if (!FavouritesActivity.mTwoPane) {
+            data = getArguments();
+        } else{
+            data = getArguments();//.getBundle("DETAIL");      //Error, data is null.
+        }
 
         final String id = data.getString("FavouritesID");
         final String title = data.getString("FavouritesTitle");
@@ -200,18 +205,5 @@ public class FavouriteDetailFragment extends Fragment {
         trailersRecyclerView = (RecyclerView) v.findViewById(R.id.trailers_recycler_view);
         reviewsRecyclerView = (RecyclerView) v.findViewById(R.id.reviews_recycler_view);
     }
-
-//    private ArrayList<String> queryFavourites() {
-//
-//        Cursor c = getActivity().getContentResolver().query(FavouritesTable.CONTENT_URI, null, null, null, null);
-//        List<Database> list = FavouritesTable.getRows(c, true);
-//        ArrayList<String> idList = new ArrayList<>();
-//        for (Database element : list) {
-//            idList.add(element.ColumnID);
-//        }
-//        return idList;
-//
-//    }
-
 
 }

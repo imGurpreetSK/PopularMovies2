@@ -73,7 +73,7 @@ public class DetailFragment extends Fragment {
         getHandles(v);
 
         Bundle data;
-        if (!MainActivity.mTwoPane || !FavouritesActivity.mTwoPane) {
+        if (!MainActivity.mTwoPane) {
             data = getArguments();
         } else{
             data = getArguments();//.getBundle("DETAIL");      //Error, data is null.

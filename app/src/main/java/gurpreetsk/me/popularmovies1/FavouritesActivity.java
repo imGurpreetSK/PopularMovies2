@@ -1,12 +1,10 @@
 package gurpreetsk.me.popularmovies1;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-
-import gurpreetsk.me.popularmovies1.utils.NetworkConnection;
 
 public class FavouritesActivity extends AppCompatActivity implements FavouritesFragment.Callback {
 
@@ -51,7 +49,7 @@ public class FavouritesActivity extends AppCompatActivity implements FavouritesF
     @Override
     public void onItemSelected(Bundle data) {
         if (mTwoPane) {
-            DetailFragment frag = new DetailFragment();
+            FavouriteDetailFragment frag = new FavouriteDetailFragment();
             Bundle bun = new Bundle();
             bun.putAll(data);
             frag.setArguments(bun);
