@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center"
-    android:layout_margin="@dimen/card_margin"
+    android:layout_margin="@dimen/container_card_margin"
     android:elevation="4dp"
     app:cardCornerRadius="4dp">
 
@@ -35,8 +35,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_gravity="start"
+                    android:scaleType="fitXY"
                     android:contentDescription="@string/detail_image"
-                    android:minWidth="200dp" />
+                    android:minWidth="200dp"
+                    android:minHeight="250dp"/>
 
                 <ScrollView
                     android:layout_width="match_parent"
@@ -109,8 +111,8 @@
                     android:layout_height="1dp"
                     android:background="@color/colorAccent"/>
 
-                <com.github.paolorotolo.expandableheightlistview.ExpandableHeightListView
-                    android:id="@+id/trailers_listview"
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/trailers_recycler_view"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content" />
             </LinearLayout>
@@ -133,8 +135,8 @@
                     android:layout_height="1dp"
                     android:background="@color/colorAccent"/>
 
-                <com.github.paolorotolo.expandableheightlistview.ExpandableHeightListView
-                    android:id="@+id/reviews_listview"
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/reviews_recycler_view"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content" />
             </LinearLayout>

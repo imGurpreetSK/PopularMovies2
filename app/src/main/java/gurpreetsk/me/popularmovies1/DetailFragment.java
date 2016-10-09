@@ -6,7 +6,9 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,6 +36,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import gurpreetsk.me.popularmovies1.adapters.ReviewsAdapter;
+import gurpreetsk.me.popularmovies1.adapters.TrailersAdapter;
 import gurpreetsk.me.popularmovies1.data.Database;
 import gurpreetsk.me.popularmovies1.data.FavouritesTable;
 import gurpreetsk.me.popularmovies1.data.TableStructure;
@@ -48,16 +52,17 @@ public class DetailFragment extends Fragment {
     ImageView imageView;
     TextView vote_average, release_date, overview;
     LikeButton likeButton;
-    ExpandableHeightListView reviewsListView;
-    ExpandableHeightListView trailersListView;
+    RecyclerView reviewsRecyclerView;
+    RecyclerView trailersRecyclerView;
 
-    ArrayAdapter<String> reviewsAdapter;
-    ArrayAdapter<String> trailersAdapter;
+    ReviewsAdapter reviewsAdapter;
+    TrailersAdapter trailersAdapter;
 
     private final String RATED = "Rated: ";
     private final String RELEASE_DATE = "Released: ";
 
     ArrayList<String> reviews = new ArrayList<>();
+    ArrayList<String> reviewer = new ArrayList<>();
     ArrayList<String> trailers = new ArrayList<>();
     ArrayList<String> trailersName = new ArrayList<>();
 
@@ -65,22 +70,40 @@ public class DetailFragment extends Fragment {
     }
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+//        fetchAndSetupReviews(data.getString("id"));
+//        fetchAndSetupTrailers(data.getString("id"));
+
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+
         View v = inflater.inflate(R.layout.fragment_detail, container, false);
 
         getHandles(v);
 
         final Bundle data = getArguments();
+        final String id = data.getString("id");
+        final String title = data.getString("title");
+        final String description = data.getString("desc");
+        final String vote_avg = data.getString("vote_average");
+        final String release = data.getString("release");
+        final String poster = data.getString("poster");
 
-        getActivity().setTitle(data.getString("title"));
+        fetchAndSetupReviews(id);
+        fetchAndSetupTrailers(id);
 
-        vote_average.setText(RATED + data.getString("vote_average"));
-        release_date.setText(RELEASE_DATE + data.get("release"));
+        getActivity().setTitle(title);
+
+        vote_average.setText(RATED + vote_avg);
+        release_date.setText(RELEASE_DATE + release);
         overview.setText(data.getString("desc"));
+
         ArrayList<String> idList = queryFavourites();
-        if (idList.contains(data.getString("id")))
+        if (idList.contains(id))
             likeButton.setLiked(true);
         likeButton.setOnLikeListener(new OnLikeListener() {
             @Override
@@ -88,12 +111,12 @@ public class DetailFragment extends Fragment {
                 likeButton.setLiked(true);
 
                 Database testInstance = new Database();
-                testInstance.title = data.getString("title");
-                testInstance.description = data.getString("desc");
-                testInstance.poster = data.getString("poster");
-                testInstance.release_date = data.getString("release");
-                testInstance.vote_average = data.getString("vote_average");
-                testInstance.ColumnID = data.getString("id");
+                testInstance.title = title;
+                testInstance.description = description;
+                testInstance.poster = poster;
+                testInstance.release_date = release;
+                testInstance.vote_average = vote_avg;
+                testInstance.ColumnID = id;
 
                 try {
                     getActivity().getContentResolver().insert(FavouritesTable.CONTENT_URI, FavouritesTable.getContentValues(testInstance, true));
@@ -105,16 +128,21 @@ public class DetailFragment extends Fragment {
             @Override
             public void unLiked(LikeButton likeButton) {
                 likeButton.setLiked(false);
-                getActivity().getContentResolver().delete(FavouritesTable.CONTENT_URI, TableStructure.COLUMN_ID + " = ?", new String[]{"" + data.getString("id")});
+                getActivity().getContentResolver().delete(FavouritesTable.CONTENT_URI, TableStructure.COLUMN_ID + " = ?", new String[]{"" + id});
             }
         });
+
         Uri builder = Uri.parse("http://image.tmdb.org/t/p/w185/").buildUpon()
-                .appendEncodedPath(data.getString("poster"))
+                .appendEncodedPath(poster)
                 .build();
         Picasso.with(getActivity()).load(builder.toString()).fit().error(R.mipmap.ic_launcher).into(imageView);
 
-        fetchAndSetupReviews(data.getString("id"));
-        fetchAndSetupTrailers(data.getString("id"));
+
+        reviewsAdapter = new ReviewsAdapter(getContext(), reviews, reviewer);
+        reviewsRecyclerView.setAdapter(reviewsAdapter);
+
+        trailersAdapter = new TrailersAdapter(getContext(), trailers, trailersName);
+        trailersRecyclerView.setAdapter(trailersAdapter);
 
         return v;
     }
@@ -125,8 +153,8 @@ public class DetailFragment extends Fragment {
         release_date = (TextView) v.findViewById(R.id.detail_release_date);
         overview = (TextView) v.findViewById(R.id.detail_overview);
         likeButton = (LikeButton) v.findViewById(R.id.detail_like_btn);
-        trailersListView = (ExpandableHeightListView) v.findViewById(R.id.trailers_listview);
-        reviewsListView = (ExpandableHeightListView) v.findViewById(R.id.reviews_listview);
+        trailersRecyclerView = (RecyclerView) v.findViewById(R.id.trailers_recycler_view);
+        reviewsRecyclerView = (RecyclerView) v.findViewById(R.id.reviews_recycler_view);
     }
 
     private void fetchAndSetupReviews(String id) {
@@ -136,7 +164,6 @@ public class DetailFragment extends Fragment {
                 .build();
 
         RequestQueue queue = Volley.newRequestQueue(getActivity());
-
         String url = reviewUri.toString();
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>() {
@@ -146,6 +173,7 @@ public class DetailFragment extends Fragment {
                             for (int i = 0; i < response.length(); i++) {
                                 JSONObject obj = response.getJSONArray("results").getJSONObject(i);
                                 reviews.add(obj.getString("content"));
+                                reviewer.add(obj.getString("author"));
                             }
                             reviewsAdapter.notifyDataSetChanged();
                         } catch (JSONException e) {
@@ -163,11 +191,6 @@ public class DetailFragment extends Fragment {
                 });
 
         queue.add(request);
-
-        reviewsAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, reviews);
-//        if (reviews.isEmpty()) reviews.add("No reviews available");
-        reviewsListView.setAdapter(reviewsAdapter);
-        reviewsListView.setExpanded(true);
 
     }
 
@@ -188,7 +211,7 @@ public class DetailFragment extends Fragment {
                         try {
                             for (int i = 0; i < response.length(); i++) {
                                 JSONObject obj = response.getJSONArray("results").getJSONObject(i);
-                                trailers.add("youtu.be/" + obj.getString("key"));
+                                trailers.add(obj.getString("key"));
                                 trailersName.add(obj.getString("name"));
                             }
                             trailersAdapter.notifyDataSetChanged();
@@ -208,19 +231,8 @@ public class DetailFragment extends Fragment {
 
         queue.add(request);
 
-        trailersAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, trailers);
-//        if (trailers.isEmpty()) trailers.add("No trailers available");
-        trailersListView.setAdapter(trailersAdapter);
-        trailersListView.setExpanded(true);
-
-        trailersListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-//                Intent intent = new Intent(Intent.ACTION_SEND);
-//                intent.setType()
-                Toast.makeText(getContext(), i + " clicked!", Toast.LENGTH_SHORT).show();
-            }
-        });
+        trailersAdapter = new TrailersAdapter(getContext(), trailers, trailersName);
+        trailersRecyclerView.setAdapter(trailersAdapter);
 
     }
 
