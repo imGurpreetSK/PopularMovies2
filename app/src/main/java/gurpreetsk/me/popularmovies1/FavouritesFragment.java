@@ -27,6 +27,10 @@ public class FavouritesFragment extends Fragment {
     FavouritesAdapter favouritesAdapter;
     ArrayList<Database> favouritesMovieList = new ArrayList<>();
 
+    public interface Callback {
+        void onItemSelected(Bundle data);
+    }
+
     public FavouritesFragment() {}
 
     @Override

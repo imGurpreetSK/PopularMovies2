@@ -73,10 +73,10 @@ public class DetailFragment extends Fragment {
         getHandles(v);
 
         Bundle data;
-        if (!MainActivity.mTwoPane) {
+        if (!MainActivity.mTwoPane || !FavouritesActivity.mTwoPane) {
             data = getArguments();
         } else{
-            data = getArguments().getBundle("DETAIL");      //Error, data is null.
+            data = getArguments();//.getBundle("DETAIL");      //Error, data is null.
         }
 
         final String id = data.getString("id");

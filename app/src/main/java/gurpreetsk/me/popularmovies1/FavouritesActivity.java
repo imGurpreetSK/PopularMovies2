@@ -8,10 +8,10 @@ import android.view.MenuItem;
 
 import gurpreetsk.me.popularmovies1.utils.NetworkConnection;
 
-public class FavouritesActivity extends AppCompatActivity implements MovieGridViewFragment.Callback{
+public class FavouritesActivity extends AppCompatActivity implements FavouritesFragment.Callback {
 
     private boolean hasFavouritesFragment = false;
-    private static boolean mTwoPane;
+    public static boolean mTwoPane;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,14 +20,8 @@ public class FavouritesActivity extends AppCompatActivity implements MovieGridVi
 
         if (findViewById(R.id.favourites_details_fragment_container) != null) {
             mTwoPane = true;
-            if (NetworkConnection.isNetworkConnected(this)) {
-                getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.favourites_details_fragment_container, new DetailFragment())
-                        .commit();
-            }else{
-                mTwoPane = false;
-            }
+        } else {
+            mTwoPane = false;
         }
         setTitle(R.string.action_favourites);
     }
@@ -50,16 +44,23 @@ public class FavouritesActivity extends AppCompatActivity implements MovieGridVi
             case R.id.menu_sort_by:
                 startActivity(new Intent(this, SettingsActivity.class));
                 break;
-
         }
         return super.onOptionsItemSelected(item);
-
     }
 
     @Override
     public void onItemSelected(Bundle data) {
-        if(mTwoPane){
-
+        if (mTwoPane) {
+            DetailFragment frag = new DetailFragment();
+            Bundle bun = new Bundle();
+            bun.putAll(data);
+            frag.setArguments(bun);
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.favourites_details_fragment_container, frag)
+                    .commit();
+        } else {
+            Intent intent = new Intent(this, DetailActivity.class);
+            startActivity(intent);
         }
     }
 }
