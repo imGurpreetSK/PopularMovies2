@@ -30,13 +30,13 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.jar.Manifest;
 
 import gurpreetsk.me.popularmovies1.adapters.ReviewsAdapter;
 import gurpreetsk.me.popularmovies1.adapters.TrailersAdapter;
 import gurpreetsk.me.popularmovies1.data.Database;
 import gurpreetsk.me.popularmovies1.data.FavouritesTable;
 import gurpreetsk.me.popularmovies1.data.TableStructure;
+import gurpreetsk.me.popularmovies1.models.MovieData;
 
 import static com.android.volley.VolleyLog.TAG;
 
@@ -73,18 +73,32 @@ public class DetailFragment extends Fragment {
         getHandles(v);
 
         Bundle data;
+        String id_temp, title_temp, description_temp, vote_avg_temp, release_temp, poster_temp;
         if (!MainActivity.mTwoPane) {
             data = getArguments();
-        } else{
-            data = getArguments();//.getBundle("DETAIL");      //Error, data is null.
+            id_temp = data.getString("id");
+            title_temp = data.getString("title");
+            description_temp = data.getString("desc");
+            vote_avg_temp = data.getString("vote_average");
+            release_temp = data.getString("release");
+            poster_temp = data.getString("poster");
+        } else {
+            Bundle bundle = getArguments();//.getBundle("DETAIL");      //Error, data is null.
+            MovieData movieData = bundle.getParcelable("DETAIL");
+            id_temp = movieData.getId();
+            title_temp = movieData.getOriginal_title();
+            description_temp = movieData.getOverview();
+            vote_avg_temp = movieData.getVote_average();
+            release_temp = movieData.getRelease_date();
+            poster_temp= movieData.getPoster_path();
         }
 
-        final String id = data.getString("id");
-        final String title = data.getString("title");
-        final String description = data.getString("desc");
-        final String vote_avg = data.getString("vote_average");
-        final String release = data.getString("release");
-        final String poster = data.getString("poster");
+        final String id = id_temp;
+        final String title = title_temp;
+        final String description = description_temp;
+        final String vote_avg = vote_avg_temp;
+        final String release = release_temp;
+        final String poster = poster_temp;
 
         fetchAndSetupReviews(id);
         fetchAndSetupTrailers(id);
@@ -93,7 +107,7 @@ public class DetailFragment extends Fragment {
 
         vote_average.setText(RATED + vote_avg);
         release_date.setText(RELEASE_DATE + release);
-        overview.setText(data.getString("desc"));
+        overview.setText(description);
 
         ArrayList<String> idList = queryFavourites();
         if (idList.contains(id))

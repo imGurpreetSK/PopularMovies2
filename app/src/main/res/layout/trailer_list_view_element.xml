@@ -18,8 +18,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_weight="0.4"
-            android:background="@drawable/heart_on"
+            android:layout_weight="0.2"
+            android:padding="@dimen/imageview_padding"
+            android:scaleType="centerInside"
+            android:background="@drawable/ic_trailer"
             android:gravity="center" />
 
         <TextView
@@ -27,7 +29,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_weight="0.6"
+            android:layout_weight="0.8"
             android:gravity="center" />
 
     </LinearLayout>

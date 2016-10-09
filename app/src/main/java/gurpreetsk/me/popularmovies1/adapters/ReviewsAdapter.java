@@ -53,13 +53,11 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ReviewVi
     public class ReviewViewHolder extends RecyclerView.ViewHolder {
 
         TextView reviewTitle, reviewDesc;
-        CardView cardView;
 
         public ReviewViewHolder(View view) {
             super(view);
             reviewTitle = (TextView) view.findViewById(R.id.review_title);
             reviewDesc = (TextView) view.findViewById(R.id.review_desc);
-            cardView = (CardView) view.findViewById(R.id.review_card_view);
         }
 
     }
