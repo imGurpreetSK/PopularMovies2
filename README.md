@@ -8,7 +8,9 @@ Add your own MovieDB API key in strings.xml to continue app operation.
 
 <p align="center">
   <img src="/screenshots/device-2016-10-10-012857.png?" width="350"/>
-  <img src="/screenshots/Screenshot_1476038608.png" width="350"/>
+</p>
+<p>
+  <img src="/screenshots/Screenshot_1476038608.png" height="350"/>
 </p>
 
 Learning Outcomes:
