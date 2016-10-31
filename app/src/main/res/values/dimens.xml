@@ -7,7 +7,12 @@
     <dimen name="margin_bottom">24dp</dimen>
     <dimen name="margin_bottom_large">32dp</dimen>
     <dimen name="bottom_margin">8dp</dimen>
+    <dimen name="side_margin">8dp</dimen>
 
     <dimen name="imageview_padding">48dp</dimen>
     <dimen name="review_card_margin">4dp</dimen>
+    <dimen name="status_bar_dimension">24dp</dimen>
+    <dimen name="appbar_layout_dimension">300dp</dimen>
+    <dimen name="appbar_default_elevation">4dp</dimen>
+    <dimen name="fab_elevation">6dp</dimen>
 </resources>

@@ -14,7 +14,9 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity
+            android:name=".MainActivity"
+            android:theme="@style/AppThemeMainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -35,13 +37,20 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
+        <activity
+            android:name=".FavouritesActivity"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppThemeMainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
 
         <provider
             android:name=".data.FavouritesProvider"
             android:authorities="gurpreetsk.me.popularmovies1"
-            android:syncable="true"
-            android:exported="false">
-        </provider>
+            android:exported="false"
+            android:syncable="true" />
 
         <!-- SyncAdapter's dummy authentication service -->
         <service android:name=".sync.MovieAuthenticatorService">
@@ -56,8 +65,7 @@
         <!-- The SyncAdapter service -->
         <service
             android:name=".sync.MovieSyncService"
-            android:exported="true"
-            >
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.content.SyncAdapter" />
             </intent-filter>
@@ -66,7 +74,6 @@
                 android:resource="@xml/syncadapter" />
         </service>
 
-        <activity android:name=".FavouritesActivity" />
     </application>
 
 </manifest>

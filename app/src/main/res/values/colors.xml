@@ -6,4 +6,9 @@
     <color name="lightPrimary">#E1BEE7</color>
     <color name="likeRed">#FF0000</color>
     <color name="likeDefault">#FFFFFF</color>
+
+    <color name="photo_placeholder">#ccc</color>
+    <color name="fab_pressed">#FFF000</color>
+    <color name="theme_accent">#FFF000</color>
+
 </resources>

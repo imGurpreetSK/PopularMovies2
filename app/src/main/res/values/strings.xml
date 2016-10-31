@@ -30,5 +30,8 @@
 
     <string name="transition_name">whatever</string>
     <string name="transition_name_2">whatever2</string>
+    <string name="content_description_article_detail">Image depicting article content</string>
+    <string name="movie_user_rating">Movie\'s user rating</string>
+    <string name="movie_release_date">Movie release date</string>
 
 </resources>

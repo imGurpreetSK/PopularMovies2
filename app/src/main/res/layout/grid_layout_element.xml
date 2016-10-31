@@ -6,8 +6,8 @@
     android:layout_height="wrap_content"
     android:layout_gravity="center"
     android:layout_margin="@dimen/card_margin"
-    app:elevation="4dp"
-    app:cardCornerRadius="4dp">
+    app:cardCornerRadius="4dp"
+    app:elevation="4dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -31,8 +31,8 @@
                 android:id="@+id/thumbnail_text_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="3"
                 android:layout_gravity="center"
+                android:layout_weight="3"
                 android:alpha=".8"
                 android:gravity="center"
                 android:minHeight="16dp"
@@ -45,9 +45,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                app:unlike_drawable="@drawable/heart_off"
+                app:icon_size="18dp"
                 app:like_drawable="@drawable/heart_on"
-                app:icon_size="18dp" />
+                app:unlike_drawable="@drawable/heart_off" />
         </LinearLayout>
     </LinearLayout>
 

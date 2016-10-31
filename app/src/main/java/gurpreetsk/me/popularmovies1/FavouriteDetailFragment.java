@@ -1,15 +1,24 @@
 package gurpreetsk.me.popularmovies1;
 
 
+import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -46,6 +55,9 @@ public class FavouriteDetailFragment extends Fragment {
     TextView vote_average, release_date, overview;
     LikeButton likeButton;
     RecyclerView reviewsRecyclerView, trailersRecyclerView;
+    CollapsingToolbarLayout collapsingToolbarLayout;
+    AppBarLayout appBarLayout;
+    FrameLayout heart_button_framelayout;
 
     ReviewsAdapter reviewsAdapter;
     TrailersAdapter trailersAdapter;
@@ -74,7 +86,7 @@ public class FavouriteDetailFragment extends Fragment {
         Bundle data;
         if (!FavouritesActivity.mTwoPane) {
             data = getArguments();
-        } else{
+        } else {
             data = getArguments();//.getBundle("DETAIL");      //Error, data is null.
         }
 
@@ -88,10 +100,10 @@ public class FavouriteDetailFragment extends Fragment {
         fetchAndSetupReviews(id);
         fetchAndSetupTrailers(id);
 
-        getActivity().setTitle(title);
+//        collapsingToolbarLayout.setTitle(title);
 
-        vote_average.setText(RATED + vote_avg);
-        release_date.setText(RELEASE_DATE + release);
+        vote_average.setText(vote_avg);
+        release_date.setText(release);
         overview.setText(description);
         likeButton.setLiked(true);
         likeButton.setOnLikeListener(new OnLikeListener() {
@@ -117,8 +129,46 @@ public class FavouriteDetailFragment extends Fragment {
         trailersRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         trailersRecyclerView.setAdapter(trailersAdapter);
 
-        return v;
-    }
+        appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                if (collapsingToolbarLayout.getHeight() + verticalOffset < 2 * ViewCompat.getMinimumHeight(collapsingToolbarLayout)) {
+                    heart_button_framelayout.animate().alpha(0.0f).setDuration(300);
+                } else {
+                    heart_button_framelayout.animate().alpha(1.0f).setDuration(300);
+                }
+//                if (verticalOffset == 0) {
+//                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//                        Window window = getActivity().getWindow();
+//                        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+//                        window.setStatusBarColor(getResources().getColor(android.R.color.transparent));
+//                    }
+//                } else {
+//                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//                        Window window = getActivity().getWindow();
+//                        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+//                        window.setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark));
+//                    }
+//                }
+                }
+            }
+
+            );
+
+            Toolbar toolbar = (Toolbar) v.findViewById(R.id.toolbar);
+            toolbar.setNavigationOnClickListener(new View.OnClickListener()
+
+            {
+                @Override
+                public void onClick (View v){
+                startActivity(new Intent(getContext(), MainActivity.class).addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY));
+            }
+            }
+
+            );
+
+            return v;
+        }
 
     private void fetchAndSetupReviews(String id) {
 
@@ -204,6 +254,9 @@ public class FavouriteDetailFragment extends Fragment {
         likeButton = (LikeButton) v.findViewById(R.id.detail_like_btn);
         trailersRecyclerView = (RecyclerView) v.findViewById(R.id.trailers_recycler_view);
         reviewsRecyclerView = (RecyclerView) v.findViewById(R.id.reviews_recycler_view);
+        collapsingToolbarLayout = ((CollapsingToolbarLayout) v.findViewById(R.id.collapsing_toolbar_layout));
+        appBarLayout = (AppBarLayout) v.findViewById(R.id.appBarLayout);
+        heart_button_framelayout = (FrameLayout) v.findViewById(R.id.heart_framelayout);
     }
 
 }

@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:layout_gravity="center"
     android:layout_margin="@dimen/review_card_margin"
-    android:elevation="4dp"
+    app:elevation="4dp"
     app:cardCornerRadius="4dp">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"

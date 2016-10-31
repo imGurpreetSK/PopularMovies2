@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity implements MovieGridViewFrag
 
         mTwoPane = findViewById(R.id.details_fragment_container) != null;
 
-        setTitle(R.string.app_name);
+//        setTitle(R.string.app_name);
 
         MovieSyncAdapter.initializeSyncAdapter(this);
 

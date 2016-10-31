@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.ShareActionProvider;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.Window;
 
 import gurpreetsk.me.popularmovies1.models.MovieData;
 
@@ -34,8 +35,7 @@ public class DetailActivity extends AppCompatActivity {
                     .beginTransaction()
                     .replace(R.id.detail_container, detailFrag)
                     .commit();
-        }
-        else {
+        } else {
             FavouriteDetailFragment favDetailFrag = new FavouriteDetailFragment();
             favDetailFrag.setArguments(getIntent().getBundleExtra("Favourites"));
             getSupportFragmentManager()
