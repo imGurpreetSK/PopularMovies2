@@ -6,6 +6,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import gurpreetsk.me.popularmovies1.sync.MovieSyncAdapter;
+
 public class FavouritesActivity extends AppCompatActivity implements FavouritesFragment.Callback {
 
     private boolean hasFavouritesFragment = false;

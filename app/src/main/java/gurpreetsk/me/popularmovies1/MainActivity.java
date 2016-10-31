@@ -7,11 +7,11 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import gurpreetsk.me.popularmovies1.sync.MovieSyncAdapter;
 import gurpreetsk.me.popularmovies1.utils.NetworkConnection;
 
 public class MainActivity extends AppCompatActivity implements MovieGridViewFragment.Callback {
 
-    private boolean hasFavouritesFragment = false;
     public static boolean mTwoPane;
 
     @Override
@@ -19,19 +19,12 @@ public class MainActivity extends AppCompatActivity implements MovieGridViewFrag
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        if (findViewById(R.id.details_fragment_container) != null) {
-            mTwoPane = true;
-//            if (NetworkConnection.isNetworkConnected(this)) {
-//                getSupportFragmentManager()
-//                        .beginTransaction()
-//                        .replace(R.id.details_fragment_container, new DetailFragment())
-//                        .commit();
-//            }
-        } else {
-            mTwoPane = false;
-        }
+        mTwoPane = findViewById(R.id.details_fragment_container) != null;
 
         setTitle(R.string.app_name);
+
+        MovieSyncAdapter.initializeSyncAdapter(this);
+
     }
 
     @Override

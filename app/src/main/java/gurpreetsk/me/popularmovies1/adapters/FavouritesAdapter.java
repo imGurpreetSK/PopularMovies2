@@ -1,9 +1,13 @@
 package gurpreetsk.me.popularmovies1.adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.util.Pair;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -78,7 +82,17 @@ public class FavouritesAdapter extends RecyclerView.Adapter<FavouritesAdapter.My
                     Intent intent = new Intent(context, DetailActivity.class);
                     intent.putExtra("ToBeShown", "FavouritesDetailFragment");
                     intent.putExtra("Favourites", data);
-                    context.startActivity(intent);
+                    Pair<View, String> p1 = Pair.create((View)holder.imageView, context.getResources().getString(R.string.transition_name));
+                    Pair<View, String> p2 = Pair.create((View)holder.likeButton, context.getResources().getString(R.string.transition_name_2));
+                    intent.putExtra(context.getResources().getString(R.string.transition_name),
+                            movie.poster);
+                    ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) context,
+                            p1, p2);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                        context.startActivity(intent, options.toBundle());
+                    } else{
+                        context.startActivity(intent);
+                    }
                 }
             }
         });

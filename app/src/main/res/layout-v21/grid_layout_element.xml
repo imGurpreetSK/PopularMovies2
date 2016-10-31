@@ -19,6 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:contentDescription="@string/movie_thumbnail"
+            android:transitionName="@string/transition_name"
             android:scaleType="fitXY" />
 
         <LinearLayout
@@ -45,6 +46,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:transitionName="@string/transition_name_2"
                 app:unlike_drawable="@drawable/heart_off"
                 app:like_drawable="@drawable/heart_on"
                 app:icon_size="18dp" />
