@@ -12,7 +12,10 @@ Add your own MovieDB API key in strings.xml to continue app operation.
 </p>
 <p align="center">
   <img src="/screenshots/ss_detail_liked.png" width="350"/>
-  <img src="/screenshots/ss_detail_favourites.png" width="350"/>
+  <img src="/screenshots/ss_favourites.png" width="350"/>
+</p>
+<p>
+ <img src="/screenshots/Screenshot_1476038608.png" height="600"/>
 </p>
 
 Learning Outcomes:
