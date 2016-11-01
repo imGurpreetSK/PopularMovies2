@@ -137,38 +137,19 @@ public class FavouriteDetailFragment extends Fragment {
                 } else {
                     heart_button_framelayout.animate().alpha(1.0f).setDuration(300);
                 }
-//                if (verticalOffset == 0) {
-//                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-//                        Window window = getActivity().getWindow();
-//                        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-//                        window.setStatusBarColor(getResources().getColor(android.R.color.transparent));
-//                    }
-//                } else {
-//                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-//                        Window window = getActivity().getWindow();
-//                        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-//                        window.setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark));
-//                    }
-//                }
-                }
             }
+        });
 
-            );
-
-            Toolbar toolbar = (Toolbar) v.findViewById(R.id.toolbar);
-            toolbar.setNavigationOnClickListener(new View.OnClickListener()
-
-            {
-                @Override
-                public void onClick (View v){
+        Toolbar toolbar = (Toolbar) v.findViewById(R.id.toolbar);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 startActivity(new Intent(getContext(), MainActivity.class).addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY));
             }
-            }
+        });
 
-            );
-
-            return v;
-        }
+        return v;
+    }
 
     private void fetchAndSetupReviews(String id) {
 

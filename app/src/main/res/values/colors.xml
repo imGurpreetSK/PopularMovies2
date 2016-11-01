@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#9C27B0</color>
-    <color name="colorPrimaryDark">#7B1FA2</color>
-    <color name="colorAccent">#7C4DFF</color>
-    <color name="lightPrimary">#E1BEE7</color>
+    <color name="colorPrimary">#00BCD4</color>
+    <color name="colorPrimaryDark">#0097A7</color>
+    <color name="colorAccent">#18FFFF</color>
     <color name="likeRed">#FF0000</color>
     <color name="likeDefault">#FFFFFF</color>
 
     <color name="photo_placeholder">#ccc</color>
-    <color name="fab_pressed">#FFF000</color>
-    <color name="theme_accent">#FFF000</color>
+    <color name="fab_pressed">@color/colorAccent</color>
+    <color name="theme_accent">#00B8D4</color>
 
 </resources>

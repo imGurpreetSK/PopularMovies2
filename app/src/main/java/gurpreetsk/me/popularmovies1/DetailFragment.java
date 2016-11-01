@@ -155,7 +155,6 @@ public class DetailFragment extends Fragment {
                 .build();
         Picasso.with(getActivity()).load(builder.toString()).fit().error(R.mipmap.ic_launcher).into(imageView);
 
-
         reviewsAdapter = new ReviewsAdapter(getContext(), reviews, reviewer);
         reviewsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         reviewsRecyclerView.setAdapter(reviewsAdapter);
