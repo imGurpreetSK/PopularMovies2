@@ -25,6 +25,7 @@
         </activity>
         <activity
             android:name=".DetailActivity"
+            android:noHistory="true"
             android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -32,6 +33,7 @@
         </activity>
         <activity
             android:name=".SettingsActivity"
+            android:noHistory="true"
             android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -40,6 +42,7 @@
         <activity
             android:name=".FavouritesActivity"
             android:parentActivityName=".MainActivity"
+            android:noHistory="true"
             android:theme="@style/AppThemeMainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
