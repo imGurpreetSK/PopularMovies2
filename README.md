@@ -7,15 +7,12 @@ Add your own MovieDB API key in strings.xml to continue app operation.
 [Screenshots:](https://github.com/GurpreetSK95/PopularMovies2/tree/master/screenshots)
 
 <p align="center">
-  <img src="/screenshots/ss_main?" width="350"/>
-  <img src="/screenshots/ss_detail_unliked?" width="350"/>
+  <img src="/screenshots/ss_main.png" width="350"/>
+  <img src="/screenshots/ss_detail_unliked.png" width="350"/>
 </p>
 <p align="center">
-  <img src="/screenshots/ss_detail_liked?" width="350"/>
-  <img src="/screenshots/ss_detail_favourites?" width="350"/>
-</p>
-<p align="center>
-  <img src="/screenshots/Screenshot_1476038608.png" height="600"/>
+  <img src="/screenshots/ss_detail_liked.png" width="350"/>
+  <img src="/screenshots/ss_detail_favourites.png" width="350"/>
 </p>
 
 Learning Outcomes:
