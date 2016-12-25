@@ -39,7 +39,6 @@ import java.util.ArrayList;
 
 import gurpreetsk.me.popularmovies1.adapters.ReviewsAdapter;
 import gurpreetsk.me.popularmovies1.adapters.TrailersAdapter;
-import gurpreetsk.me.popularmovies1.data.FavouritesTable;
 import gurpreetsk.me.popularmovies1.data.TableStructure;
 
 import static com.android.volley.VolleyLog.TAG;
