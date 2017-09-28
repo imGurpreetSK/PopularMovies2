@@ -4,6 +4,7 @@
 
     <string name="movie_thumbnail">movie_thumbnail</string>
     <string name="API_KEY_ATTR">api_key</string>
+    <string name="PAGE_ATTR" translatable="false">page</string>
     <string name="title_activity_information">InformationActivity</string>
     <string name="detail_image" translatable="false">DetailActivity Image</string>
     <string name="popularity" translatable="false">popularity.desc</string>
