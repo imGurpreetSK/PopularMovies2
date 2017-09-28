@@ -37,6 +37,8 @@ public class MovieGridViewFragment extends Fragment{
 
     ArrayList<MovieData> MovieList = new ArrayList<>();
     private MoviesAdapter adapter;
+    private int moviesPage;
+    private int totalMoviesPages;
 
     public static final String EXTRA_TITLE = "title";
     String sortBy;
@@ -69,6 +71,19 @@ public class MovieGridViewFragment extends Fragment{
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getContext(), 2);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            private int scrolledByY;
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                scrolledByY += dy;
+
+                if (scrolledByY >= recyclerView.computeVerticalScrollExtent()) {
+                    fetchJSON();
+                    scrolledByY = 0;
+                }
+            }
+        });
 
         return v;
     }
@@ -78,30 +93,41 @@ public class MovieGridViewFragment extends Fragment{
         Uri uri;
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
+        String prevSortBy = sortBy != null ? new String(sortBy) : null;
         sortBy = prefs.getString(getString(R.string.sort), getString(R.string.popularity));
 
         RequestQueue queue = Volley.newRequestQueue(getActivity());
+        String url;
         if (sortBy.equals(getString(R.string.popularity))) {
-
-            uri = Uri.parse("http://api.themoviedb.org/3/movie/popular?")
-                    .buildUpon()
-                    .appendQueryParameter(getString(R.string.API_KEY_ATTR), getString(R.string.MOVIEDB_API_KEY))
-                    .build();
-
-        } else{
-            uri = Uri.parse("http://api.themoviedb.org/3/movie/top_rated?")
-                    .buildUpon()
-                    .appendQueryParameter(getString(R.string.API_KEY_ATTR), getString(R.string.MOVIEDB_API_KEY))
-                    .build();
+            url = "http://api.themoviedb.org/3/movie/popular?";
+        } else {
+            url = "http://api.themoviedb.org/3/movie/top_rated?";
         }
 
-        String url = uri.toString();
+        if (prevSortBy == null || (prevSortBy != null && !prevSortBy.equals(sortBy))) {
+            moviesPage = 1;
+        } else {
+            if (++moviesPage > totalMoviesPages) {
+                return;
+            }
+        }
+
+        url = Uri.parse(url)
+                .buildUpon()
+                .appendQueryParameter(getString(R.string.API_KEY_ATTR), getString(R.string.MOVIEDB_API_KEY))
+                .appendQueryParameter(getString(R.string.PAGE_ATTR), String.valueOf(moviesPage))
+                .build().toString();
+
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>() {
 
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
+                            if (moviesPage == 1) {
+                                totalMoviesPages = response.getInt("total_pages");
+                            }
+
                             for (int i = 0; i < 20; i++) {
                                 JSONObject obj = response.getJSONArray("results").getJSONObject(i);
                                 String id = obj.getString("id");
